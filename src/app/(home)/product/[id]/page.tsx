@@ -15,12 +15,17 @@ import {
 import Image from "next/image";
 import { useQuery } from "react-query";
 import { RiPencilLine } from "react-icons/ri";
+import FORMATTER from "@/utils/formatter";
+import { IoChevronBackOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 type Props = {
     params: { id: string };
 };
 
 export default function Page({ params: { id } }: Props) {
+    const router = useRouter();
+
     const {
         data: product,
         isLoading: isProductLoading,
@@ -37,6 +42,13 @@ export default function Page({ params: { id } }: Props) {
             <div className=" pr-12 flex justify-between items-start">
                 <div>
                     <div className=" flex flex-row gap-4 items-center">
+                        <Button
+                            onClick={() => router.push("/product")}
+                            btnType={"secondary"}
+                            className=" !px-0"
+                        >
+                            <IoChevronBackOutline size={20} />
+                        </Button>
                         <p className=" font-semibold text-2xl">
                             {product.name}
                         </p>
@@ -55,7 +67,7 @@ export default function Page({ params: { id } }: Props) {
                 </div>
             </div>
             <div className=" mt-6 flex flex-row gap-16">
-                <div className=" w-[500px] h-[500px]">
+                <div className=" w-[500px] h-[500px] bg-secondary-200 rounded-xl">
                     <Carousel>
                         {product.photoURL
                             ?.split(";")
@@ -75,7 +87,7 @@ export default function Page({ params: { id } }: Props) {
                         <p className=" text-secondary-600">Price</p>
                         <p className=" mt-1">
                             <span className=" text-2xl font-bold">
-                                {product.price}
+                                {FORMATTER.toCurrency(product.price)}
                             </span>{" "}
                             / <span className="">{product.unit}</span>
                         </p>

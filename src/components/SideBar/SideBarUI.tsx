@@ -251,7 +251,7 @@ export default function SideBarUI({
                                         ].includes(routeName) && !isCollapse
                                     }
                                     icon={IoPrint}
-                                    label="Export"
+                                    label="Sale"
                                 >
                                     <Sidebar.Item
                                         active={
@@ -269,7 +269,7 @@ export default function SideBarUI({
                                         href={ROUTES.sale}
                                         icon={IoQrCode}
                                     >
-                                        Export
+                                        Sale products
                                     </Sidebar.Item>
                                 </Sidebar.Collapse>{" "}
                                 <Sidebar.Collapse
