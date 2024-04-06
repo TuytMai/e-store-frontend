@@ -18,6 +18,8 @@ import { RiPencilLine } from "react-icons/ri";
 import FORMATTER from "@/utils/formatter";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import Supplier from "@/types/entity/Supplier";
+import viewDetailProductSupplier from "@/api/product/viewDetailProductSupplier.api";
 
 type Props = {
     params: { id: string };
@@ -34,6 +36,21 @@ export default function Page({ params: { id } }: Props) {
         refetchOnMount: "always",
         cacheTime: 0,
     });
+
+    const {
+        data: suppliers,
+        isLoading: isProducSupplierstLoading,
+        refetch: refetchSuppliers,
+    } = useQuery<Supplier[]>(
+        ["product-suppliers", id],
+        viewDetailProductSupplier,
+        {
+            refetchOnMount: "always",
+            cacheTime: 0,
+        },
+    );
+
+    console.log({ suppliers });
 
     const { openUpdateProductModal } = useUpdateProductModal();
 
@@ -116,7 +133,28 @@ export default function Page({ params: { id } }: Props) {
                             </AccordionTitle>
                             <AccordionContent
                                 theme={customAccordionTheme?.content}
-                            ></AccordionContent>
+                            >
+                                {suppliers
+                                    ? suppliers?.map((supplier) => (
+                                          <div
+                                              key={supplier.id}
+                                              className=" my-1 px-4 py-2 rounded-lg hover:bg-secondary-100 hover:cursor-pointer"
+                                          >
+                                              <p className=" font-bold ">
+                                                  {supplier.name}
+                                              </p>
+                                              <p className=" mt-1 text-secondary-600">
+                                                  <span>{supplier.phone}</span>
+                                                  {" | "}
+                                                  <span>{supplier.email}</span>
+                                              </p>
+                                              <p className=" text-secondary-600">
+                                                  {supplier.address}
+                                              </p>
+                                          </div>
+                                      ))
+                                    : null}
+                            </AccordionContent>
                         </AccordionPanel>
                     </Accordion>
                 </div>

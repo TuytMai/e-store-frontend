@@ -74,6 +74,7 @@ export default function Page() {
                         }}
                         pick={{
                             name: { title: "Name" },
+                            productNum: { title: "Products" },
                         }}
                     />
                 </div>
