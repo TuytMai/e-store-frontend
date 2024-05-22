@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/Button/Button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { HiPlus } from "react-icons/hi";
 import { useQuery } from "react-query";
 import Category from "@/types/entity/Category";
@@ -19,7 +19,6 @@ import MobileHeader from "@/components/MobileHeader/MobileHeader";
 import useScreen from "@/hooks/useScreen";
 
 export default function Page() {
-    const router = useRouter();
     const searchParams = useSearchParams();
 
     const categoryKeyword = searchParams.get(SEARCH_PARAMS.categoryName) || "";
@@ -73,14 +72,8 @@ export default function Page() {
                         onEdit={(category) => {
                             openUpdateCategoryModal(category.id, refetch);
                         }}
-                        onClickRow={(category) => {
-                            router.push(
-                                `/product?category_name=${category.name}`,
-                            );
-                        }}
                         pick={{
                             name: { title: "Name" },
-                            productNum: { title: "Products" },
                         }}
                     />
                 </div>

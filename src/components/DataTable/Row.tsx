@@ -90,7 +90,7 @@ export function Row<T>({
             {isEdit && (isAllowedDelete || isAllowedEdit) ? (
                 <Table.Cell
                     theme={tableTheme?.body?.cell}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => e.preventDefault()}
                 >
                     <Dropdown
                         label=""

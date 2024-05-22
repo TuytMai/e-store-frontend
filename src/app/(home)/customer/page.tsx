@@ -96,9 +96,6 @@ export default function Page() {
                     entityType="CUSTOMER"
                     isLoading={isLoading}
                     className=""
-                    onClickRow={(customer) => {
-                        router.push(`/customer/${customer.id}`);
-                    }}
                     onDelete={(customer) => {
                         openClaimModal(
                             <>

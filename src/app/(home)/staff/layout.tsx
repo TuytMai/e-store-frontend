@@ -72,7 +72,59 @@ export default function Layout({ children }: ReactNodeChildren) {
                     searchParamName={SEARCH_PARAMS.staffName}
                 />
             </div>
+            <p className=" mt-8 mb-4 font-semibold text-yellow-500">
+                {data && !isLoading ? `${data.length} items` : "Loading..."}
+            </p>
             <div className=" w-full flex flex-col-reverse lg:flex-row gap-5">
+                <DataTable
+                    data={data || []}
+                    isLoading={isLoading}
+                    onDelete={(staff) => {
+                        openClaimModal(
+                            <>
+                                Do you want to delete staff <b>{staff.name}</b>
+                            </>,
+                            (confirm) =>
+                                confirm && deleteStaffMutation.mutate(staff),
+                        );
+                    }}
+                    onEdit={(staff) => {
+                        openUpdateStaffModal(staff.id, refetch);
+                    }}
+                    // onClickRow={(staff: Staff) => {
+                    //     router.push(
+                    //         withQuery(`/staff/${staff.id}`, {}, searchParams),
+                    //     );
+                    // }}
+                    pick={{
+                        name: { title: "Name", className: "min-w-[150px]" },
+                        ...(pathname.split("/").at(-1) != "staff"
+                            ? {}
+                            : {
+                                  email: {
+                                      title: "Email",
+                                      className:
+                                          " font-normal text-secondary-500 min-w-[150px]",
+                                  },
+                                  phone: {
+                                      title: "Phone number",
+                                      className:
+                                          " font-normal text-secondary-500 min-w-[100px]",
+                                  },
+                                  citizenId: {
+                                      title: "Citizen ID",
+                                      className:
+                                          " font-normal text-secondary-500 min-w-[100px]",
+                                  },
+                              }),
+                        lastOnline: {
+                            title: "Last online",
+                            className:
+                                " font-normal text-secondary-500 min-w-[150px]",
+                            mapper: FORMATTER.toShortDate,
+                        },
+                    }}
+                />
                 {children}
             </div>
         </div>

@@ -251,7 +251,7 @@ export default function SideBarUI({
                                         ].includes(routeName) && !isCollapse
                                     }
                                     icon={IoPrint}
-                                    label="Sale"
+                                    label="Export"
                                 >
                                     <Sidebar.Item
                                         active={
@@ -269,7 +269,7 @@ export default function SideBarUI({
                                         href={ROUTES.sale}
                                         icon={IoQrCode}
                                     >
-                                        Sale products
+                                        Export
                                     </Sidebar.Item>
                                 </Sidebar.Collapse>{" "}
                                 <Sidebar.Collapse
@@ -295,14 +295,14 @@ export default function SideBarUI({
                                     >
                                         Invoices
                                     </Sidebar.Item>
-                                    {/* <Sidebar.Item
+                                    <Sidebar.Item
                                         active={routeName === ROUTES.warranty}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.warranty}
                                         icon={RiToolsLine}
                                     >
                                         Warranty
-                                    </Sidebar.Item> */}
+                                    </Sidebar.Item>
                                 </Sidebar.Collapse>
                             </Sidebar.ItemGroup>
                         </Sidebar.Items>

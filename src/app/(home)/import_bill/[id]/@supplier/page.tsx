@@ -4,7 +4,6 @@ import Revision from "@/types/Revision";
 import ImportBill, { ImportProductResponse } from "@/types/entity/ImportBill";
 import Supplier from "@/types/entity/Supplier";
 import fetchWithToken from "@/utils/fetchWithToken";
-import Link from "next/link";
 
 export default async function Page({ params: { id } }: PropTypes) {
     const importBillResponse = await fetchWithToken(
@@ -23,32 +22,31 @@ export default async function Page({ params: { id } }: PropTypes) {
         const supplier: Supplier = await supplierResponse.json();
 
         return (
-            <Link href={`/supplier/${supplier.id}`}>
-                <Avatar
-                    className="p-3 -mx-3 flex justify-start items-start rounded-lg hover:bg-background-hover cursor-pointer "
-                    rounded
-                    placeholderInitials={supplier.name
-                        .split(" ")
-                        .slice(-2)
-                        .map((word) => word[0])
-                        .join("")}
-                >
-                    <div>
-                        <p className=" font-semibold text-start text-secondary-950 text-sm">
-                            {supplier.name}
-                        </p>
-                        <p className=" font-normal text-start text-secondary-600 text-sm">
-                            {supplier.email}
-                        </p>
-                        <p className=" font-normal text-start text-secondary-600 text-sm">
-                            {supplier.phone}
-                        </p>
-                        <p className=" font-normal text-start text-secondary-600 text-sm">
-                            {supplier.address}
-                        </p>
-                    </div>
-                </Avatar>
-            </Link>
+            <Avatar
+                className="p-3 -mx-3 flex justify-start items-start rounded-lg hover:bg-background-hover cursor-pointer "
+                rounded
+                
+                placeholderInitials={supplier.name
+                    .split(" ")
+                    .slice(-2)
+                    .map((word) => word[0])
+                    .join("")}
+            >
+                <div>
+                    <p className=" font-semibold text-start text-secondary-950 text-sm">
+                        {supplier.name}
+                    </p>
+                    <p className=" font-normal text-start text-secondary-600 text-sm">
+                        {supplier.email}
+                    </p>
+                    <p className=" font-normal text-start text-secondary-600 text-sm">
+                        {supplier.phone}
+                    </p>
+                    <p className=" font-normal text-start text-secondary-600 text-sm">
+                        {supplier.address}
+                    </p>
+                </div>
+            </Avatar>
         );
     }
     return null;

@@ -13,7 +13,8 @@ export default function Layout({
 
     return (
         <>
-            <div className=" pt-1 flex-1 w-full overflow-y-auto flex flex-col-reverse xl:flex-row gap-5 xl:gap-1 ">
+            {isMobile || <SupplierList />}
+            <div className=" pt-1 flex-1 w-1/2 overflow-y-auto flex flex-col-reverse xl:flex-row gap-5 xl:gap-1 ">
                 {children}
             </div>
         </>

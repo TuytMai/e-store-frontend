@@ -17,6 +17,9 @@ export default async function Page({ params: { id, revisionId } }: PropTypes) {
 
     return (
         <>
+            <div className=" flex-none xl:max-h-full h-fit pl-1 pr-8 pb-2 overflow-x-hidden xl:overflow-y-auto">
+                <TimeLineList supplierId={id} />
+            </div>
             <div className=" w-full flex-1 overflow-auto flex flex-col gap-5 rounded-lg border-[1px] border-secondary-200  py-5 pl-8">
                 <div className=" flex flex-col items-start gap-1">
                     <p className=" text-sm text-secondary-600">

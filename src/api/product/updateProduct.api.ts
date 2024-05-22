@@ -14,7 +14,7 @@ export default async function updateProductAPI(product: UpdatedProduct) {
 
     return {
         ...response.data,
-        photo: response.data.photoURL?.split(";").filter((v: any) => v) || [],
+        photo: response.data.split(";").filter((v: any) => v),
     };
 }
 

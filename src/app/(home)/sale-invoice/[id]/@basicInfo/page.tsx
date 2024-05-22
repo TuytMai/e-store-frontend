@@ -4,7 +4,6 @@ import Revision from "@/types/Revision";
 import SaleBill, { SaleProductResponse } from "@/types/entity/SaleBill";
 import fetchWithToken from "@/utils/fetchWithToken";
 import FORMATTER from "@/utils/formatter";
-import Link from "next/link";
 
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { MdOutlinePayment } from "react-icons/md";
@@ -47,26 +46,27 @@ export default async function Page({ params: { id } }: PropTypes) {
             <div className=" mt-2">
                 <p className=" font-semibold mb-2">Product list</p>
                 {products.map(({ product, quantity, price }) => (
-                    <Link key={product.id} href={`/product/${product.id}`}>
-                        <div className=" py-2 -mx-3 px-3 rounded-lg flex justify-between items-center duration-150 hover:bg-background-hover cursor-pointer">
-                            <div>
-                                <p className=" font-semibold">{product.name}</p>
-                                <p className=" mt-1 text-sm text-secondary-600">
-                                    <span className=" font-medium text-secondary-800">
-                                        {FORMATTER.toCurrency(price)}
-                                    </span>
-                                    <span>{" x "}</span>
-                                    <span className=" font-medium text-secondary-800">
-                                        {quantity}
-                                    </span>
-                                    <span className="">{` ${product.unit}`}</span>
-                                </p>
-                            </div>
-                            <p className=" text-base font-semibold">
-                                {FORMATTER.toCurrency(quantity * price)}
+                    <div
+                        key={product.id}
+                        className=" py-2 -mx-3 px-3 rounded-lg flex justify-between items-center duration-150 hover:bg-background-hover cursor-pointer"
+                    >
+                        <div>
+                            <p className=" font-semibold">{product.name}</p>
+                            <p className=" mt-1 text-sm text-secondary-600">
+                                <span className=" font-medium text-secondary-800">
+                                    {FORMATTER.toCurrency(price)}
+                                </span>
+                                <span>{" x "}</span>
+                                <span className=" font-medium text-secondary-800">
+                                    {quantity}
+                                </span>
+                                <span className="">{` ${product.unit}`}</span>
                             </p>
                         </div>
-                    </Link>
+                        <p className=" text-base font-semibold">
+                            {FORMATTER.toCurrency(quantity * price)}
+                        </p>
+                    </div>
                 ))}
                 <div className=" mt-4 py-2 -mx-3 px-3 rounded-lg flex justify-between items-center bg-secondary-50">
                     <p className=" font-semibold">Total</p>
