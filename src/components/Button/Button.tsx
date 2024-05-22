@@ -17,6 +17,7 @@ export default function Button({
     btnType = "primary",
     children = "Untitle",
     hiddenTitle,
+    title,
     className,
     ref,
     isLoading = false,
@@ -37,8 +38,13 @@ export default function Button({
                 <div className=" flex items-center">
                     {children}
                     {hiddenTitle && (
-                        <p className=" font-semibola overflow-hidden w-fit max-w-0 group-hover:max-w-[70px] group-hover:ml-2 transition-all duration-300">
+                        <p className=" font-semibold whitespace-nowrap overflow-hidden w-fit max-w-0 group-hover:max-w-[70px] group-hover:ml-2 transition-all duration-300">
                             {hiddenTitle}
+                        </p>
+                    )}
+                    {title && (
+                        <p className=" ml-2 font-semibold whitespace-nowrap overflow-hidden w-fit transition-all duration-300">
+                            {title}
                         </p>
                     )}
                 </div>
@@ -79,4 +85,5 @@ type PropTypes = ReactNodeChildren &
         btnType?: "primary" | "secondary" | "error";
         isLoading?: boolean;
         hiddenTitle?: string;
+        title?: string;
     };

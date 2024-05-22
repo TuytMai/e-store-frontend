@@ -2,26 +2,18 @@
 
 import ProductPreview from "@/types/entity/ProductPreview";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 type Props = {
     product: ProductPreview;
 };
 
 export default function ProductGridItem({ product }: Props) {
-    const router = useRouter();
-
     const productPhotoURL = product?.photoURL
         ?.split(";")
         ?.filter((v: any) => v)?.[0];
 
     return (
-        <div
-            onClick={() => {
-                router.push(`/product/${product.id}`);
-            }}
-            className=" flex flex-col relative top-0 left-0 hover:-top-1 hover:-left-2 transition-all duration-300 hover:shadow-lg hover:cursor-pointer p-3 rounded-lg"
-        >
+        <div className=" flex flex-col relative top-0 left-0 hover:-top-1 hover:-left-2 transition-all duration-300 hover:shadow-lg hover:cursor-pointer p-3 rounded-lg">
             <div className=" h-[200px] grid place-items-center overflow-hidden rounded-xl">
                 {productPhotoURL ? (
                     <Image
@@ -42,10 +34,7 @@ export default function ProductGridItem({ product }: Props) {
                 </p>
                 <div className=" px-2 mt-4">
                     <p className=" font-semibold">{product.name}</p>
-                    <p className=" mt-1">
-                        <span className=" font-bold">{product.quantity}</span>{" "}
-                        products
-                    </p>
+                    <p className=" mt-1">x{product.quantity} products</p>
                 </div>
             </div>
         </div>
