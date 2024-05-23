@@ -10,27 +10,26 @@ import { useClaimModal } from "@/components/ClaimModal/ClaimModal";
 import { useCreateProductModal } from "@/components/CreateProductForm/CreateProductFormModal";
 import DataTable from "@/components/DataTable/DataTable";
 import FilterBadge from "@/components/FilterBadge/FilterBadge";
-import PriceRangeFilter from "@/components/PriceRangeFilter/PriceRangeFilter";
+import ItemGrid from "@/components/ItemGrid/ItemGrid";
+import ProductGridItem from "@/components/ProductGridItem/ProductGridItem";
 import ProductSearch from "@/components/ProductSearch/ProductSearch";
 import { useUpdateProductModal } from "@/components/UpdateProductForm/UpdateProductFormModal";
 import SEARCH_PARAMS from "@/constants/searchParams";
 import { usePermission } from "@/hooks/usePermission";
-import ProductPreview from "@/types/entity/ProductPreview";
-import FORMATTER from "@/utils/formatter";
-import { useSearchParams } from "next/navigation";
-import { useQuery } from "react-query";
 import useScreen from "@/hooks/useScreen";
-import MenuButton from "@/components/SideBar/MenuButton";
+import ProductPreview from "@/types/entity/ProductPreview";
 import FONT from "@/utils/fontFamily";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import ItemGrid from "@/components/ItemGrid/ItemGrid";
-import ProductGridItem from "@/components/ProductGridItem/ProductGridItem";
-import { IoGridOutline, IoListSharp } from "react-icons/io5";
+import FORMATTER from "@/utils/formatter";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { IoGridOutline, IoListSharp } from "react-icons/io5";
+import { useQuery } from "react-query";
 
 const font = FONT.primary;
 
 export default function Page() {
+    const router = useRouter();
+
     const screen = useScreen();
     const isMobile = !screen("md");
 
@@ -126,6 +125,9 @@ export default function Page() {
                                 confirm &&
                                 deleteProductMutation.mutate(product),
                         );
+                    }}
+                    onClickRow={(product) => {
+                        router.push(`/product/${product.id}`);
                     }}
                     onEdit={(product) => {
                         openUpdateProductModal(product.id, refetch);

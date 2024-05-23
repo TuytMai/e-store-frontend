@@ -15,19 +15,12 @@ import {
 import Image from "next/image";
 import { useQuery } from "react-query";
 import { RiPencilLine } from "react-icons/ri";
-import FORMATTER from "@/utils/formatter";
-import { IoChevronBackOutline } from "react-icons/io5";
-import { useRouter } from "next/navigation";
-import Supplier from "@/types/entity/Supplier";
-import viewDetailProductSupplier from "@/api/product/viewDetailProductSupplier.api";
 
 type Props = {
     params: { id: string };
 };
 
 export default function Page({ params: { id } }: Props) {
-    const router = useRouter();
-
     const {
         data: product,
         isLoading: isProductLoading,
@@ -37,19 +30,6 @@ export default function Page({ params: { id } }: Props) {
         cacheTime: 0,
     });
 
-    const {
-        data: suppliers,
-        isLoading: isProducSupplierstLoading,
-        refetch: refetchSuppliers,
-    } = useQuery<Supplier[]>(
-        ["product-suppliers", id],
-        viewDetailProductSupplier,
-        {
-            refetchOnMount: "always",
-            cacheTime: 0,
-        },
-    );
-
     const { openUpdateProductModal } = useUpdateProductModal();
 
     return product ? (
@@ -57,13 +37,6 @@ export default function Page({ params: { id } }: Props) {
             <div className=" pr-12 flex justify-between items-start">
                 <div>
                     <div className=" flex flex-row gap-4 items-center">
-                        <Button
-                            onClick={() => router.push("/product")}
-                            btnType={"secondary"}
-                            className=" !px-0"
-                        >
-                            <IoChevronBackOutline size={20} />
-                        </Button>
                         <p className=" font-semibold text-2xl">
                             {product.name}
                         </p>
@@ -82,7 +55,7 @@ export default function Page({ params: { id } }: Props) {
                 </div>
             </div>
             <div className=" mt-6 flex flex-row gap-16">
-                <div className=" w-[500px] h-[500px] bg-secondary-200 rounded-xl">
+                <div className=" w-[500px] h-[500px]">
                     <Carousel>
                         {product.photoURL
                             ?.split(";")
@@ -102,7 +75,7 @@ export default function Page({ params: { id } }: Props) {
                         <p className=" text-secondary-600">Price</p>
                         <p className=" mt-1">
                             <span className=" text-2xl font-bold">
-                                {FORMATTER.toCurrency(product.price)}
+                                {product.price}
                             </span>{" "}
                             / <span className="">{product.unit}</span>
                         </p>
@@ -131,28 +104,7 @@ export default function Page({ params: { id } }: Props) {
                             </AccordionTitle>
                             <AccordionContent
                                 theme={customAccordionTheme?.content}
-                            >
-                                {suppliers
-                                    ? suppliers?.map((supplier) => (
-                                          <div
-                                              key={supplier.id}
-                                              className=" my-1 px-4 py-2 rounded-lg hover:bg-secondary-100 hover:cursor-pointer"
-                                          >
-                                              <p className=" font-bold ">
-                                                  {supplier.name}
-                                              </p>
-                                              <p className=" mt-1 text-secondary-600">
-                                                  <span>{supplier.phone}</span>
-                                                  {" | "}
-                                                  <span>{supplier.email}</span>
-                                              </p>
-                                              <p className=" text-secondary-600">
-                                                  {supplier.address}
-                                              </p>
-                                          </div>
-                                      ))
-                                    : null}
-                            </AccordionContent>
+                            ></AccordionContent>
                         </AccordionPanel>
                     </Accordion>
                 </div>
