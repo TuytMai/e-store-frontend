@@ -90,4 +90,3 @@ export default function UpdateProductForm({ productId }: PropTypes) {
 type PropTypes = {
     productId: string;
 };
-
