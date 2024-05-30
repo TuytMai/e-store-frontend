@@ -14,7 +14,7 @@ export default async function Page() {
         headers: myHeaders,
     });
 
-    if (staffInfoResponse.status === 200) redirect(withQuery("/product", {}));
+    if (staffInfoResponse.status === 200) redirect(withQuery("/home", {}));
 
     return <SignIn />;
 }
