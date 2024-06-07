@@ -1,14 +1,13 @@
-import LabeledText from "@/components/Typography/LabeledText";
+import Button from "@/components/Button/Button";
 import API from "@/constants/apiEnpoint";
 import Supplier from "@/types/entity/Supplier";
 import fetchWithToken from "@/utils/fetchWithToken";
-import SupplierFunction from "./supplierFunction";
-import useScreen from "@/hooks/useScreen";
-import TimeLineList from "./TimeLineList";
-import Button from "@/components/Button/Button";
-import { RiPencilLine } from "react-icons/ri";
+import { CustomFlowbiteTheme } from "flowbite-react";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdOutlineMail } from "react-icons/md";
+import { RiPencilLine } from "react-icons/ri";
+import SupplierProducts from "./SupplierProducts";
+import TimeLineList from "./TimeLineList";
 
 export default async function Page({ params: { id } }: PropTypes) {
     const supplierResponse = await fetchWithToken(API.supplier.getDetail(id));
@@ -57,6 +56,7 @@ export default async function Page({ params: { id } }: PropTypes) {
                         <span className=" text-base">{supplier.note}</span>
                     </p>
                 </div>
+                <SupplierProducts id={id} />
             </div>
         </>
     );
@@ -64,4 +64,36 @@ export default async function Page({ params: { id } }: PropTypes) {
 
 type PropTypes = {
     params: { id: string };
+};
+
+const customAccordionTheme: CustomFlowbiteTheme["accordion"] = {
+    root: {
+        base: "divide-y divide-gray-200 border-gray-200 ",
+        flush: {
+            off: "rounded-lg border",
+            on: "border-b",
+        },
+    },
+    content: {
+        base: "py-4 px-4 last:rounded-b-lg dark:bg-gray-900 first:rounded-t-lg",
+    },
+    title: {
+        arrow: {
+            base: "h-5 w-5 shrink-0",
+            open: {
+                off: "",
+                on: "rotate-180",
+            },
+        },
+        base: "flex w-full items-center justify-between first:rounded-t-lg last:rounded-b-lg py-3 px-3 text-left font-medium text-gray-500 dark:text-gray-400",
+        flush: {
+            off: "hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:hover:bg-gray-800 dark:focus:ring-gray-800",
+            on: "bg-transparent dark:bg-transparent",
+        },
+        heading: "",
+        open: {
+            off: "",
+            on: "text-gray-900 bg-gray-100 dark:bg-gray-800 dark:text-white",
+        },
+    },
 };
