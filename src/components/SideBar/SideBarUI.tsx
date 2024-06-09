@@ -14,6 +14,24 @@ import {
     HiShoppingBag,
     HiUserGroup,
 } from "react-icons/hi";
+import {
+    IoHome,
+    IoBagHandle,
+    IoFlowerSharp,
+    IoBookmarks,
+    IoPeopleSharp,
+    IoStorefront,
+    IoPerson,
+    IoPrint,
+    IoReceipt,
+    IoReader,
+    IoCloudUpload,
+    IoCloudDownload,
+    IoBagAdd,
+    IoArrowDownCircle,
+    IoMedkit,
+    IoQrCode,
+} from "react-icons/io5";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { PiTruckDuotone } from "react-icons/pi";
 import { RiToolsLine } from "react-icons/ri";
@@ -131,14 +149,14 @@ export default function SideBarUI({
                         </div>
                         <Sidebar.Items>
                             <Sidebar.ItemGroup>
-                                {/* <Sidebar.Item
+                                <Sidebar.Item
                                     theme={sideBarTheme?.item}
                                     active={routeName === ROUTES.home}
                                     href={ROUTES.home}
                                     icon={HiChartPie}
                                 >
                                     Dashboard
-                                </Sidebar.Item> */}
+                                </Sidebar.Item>
                                 <Sidebar.Collapse
                                     theme={sideBarTheme?.collapse}
                                     href={isCollapse ? ROUTES.product : ""}
@@ -148,14 +166,14 @@ export default function SideBarUI({
                                             ROUTES.product,
                                         ].includes(routeName) && !isCollapse
                                     }
-                                    icon={HiShoppingBag}
+                                    icon={IoBagHandle}
                                     label="Product"
                                 >
                                     <Sidebar.Item
                                         active={routeName === ROUTES.product}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.product}
-                                        icon={HiDocumentSearch}
+                                        icon={IoBagAdd}
                                     >
                                         Product List
                                     </Sidebar.Item>
@@ -163,7 +181,7 @@ export default function SideBarUI({
                                         active={routeName === ROUTES.category}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.category}
-                                        icon={HiBookmark}
+                                        icon={IoBookmarks}
                                     >
                                         Category
                                     </Sidebar.Item>
@@ -172,7 +190,7 @@ export default function SideBarUI({
                                     active={routeName === ROUTES.supplier}
                                     theme={sideBarCollapsedItemTheme?.item}
                                     href={ROUTES.supplier}
-                                    icon={PiTruckDuotone}
+                                    icon={IoStorefront}
                                 >
                                     Supplier
                                 </Sidebar.Item>
@@ -180,7 +198,7 @@ export default function SideBarUI({
                                     active={routeName === ROUTES.customer}
                                     theme={sideBarCollapsedItemTheme?.item}
                                     href={ROUTES.customer}
-                                    icon={AiFillCustomerService}
+                                    icon={IoPerson}
                                 >
                                     Customer
                                 </Sidebar.Item>
@@ -188,7 +206,7 @@ export default function SideBarUI({
                                     active={routeName === ROUTES.staff}
                                     theme={sideBarCollapsedItemTheme?.item}
                                     href={ROUTES.staff}
-                                    icon={HiUserGroup}
+                                    icon={IoPeopleSharp}
                                 >
                                     Staff
                                 </Sidebar.Item>
@@ -201,7 +219,7 @@ export default function SideBarUI({
                                             ROUTES.import,
                                         ].includes(routeName) && !isCollapse
                                     }
-                                    icon={HiClipboardCheck}
+                                    icon={IoMedkit}
                                     label="Import"
                                 >
                                     <Sidebar.Item
@@ -210,7 +228,7 @@ export default function SideBarUI({
                                         }
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.import_bill}
-                                        icon={LiaFileInvoiceDollarSolid}
+                                        icon={IoReader}
                                     >
                                         Invoices
                                     </Sidebar.Item>
@@ -218,12 +236,12 @@ export default function SideBarUI({
                                         active={routeName === ROUTES.import}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.import}
-                                        icon={HiSave}
+                                        icon={IoCloudUpload}
                                     >
                                         Import goods
                                     </Sidebar.Item>
                                 </Sidebar.Collapse>
-                                {/* <Sidebar.Collapse
+                                <Sidebar.Collapse
                                     theme={sideBarTheme?.collapse}
                                     href={isCollapse ? ROUTES.sale : ""}
                                     open={
@@ -232,7 +250,7 @@ export default function SideBarUI({
                                             ROUTES.sale,
                                         ].includes(routeName) && !isCollapse
                                     }
-                                    icon={MdOutlineCurrencyExchange}
+                                    icon={IoPrint}
                                     label="Export"
                                 >
                                     <Sidebar.Item
@@ -241,7 +259,7 @@ export default function SideBarUI({
                                         }
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.sale_invoice}
-                                        icon={LiaFileInvoiceDollarSolid}
+                                        icon={IoReceipt}
                                     >
                                         Invoices
                                     </Sidebar.Item>
@@ -249,7 +267,7 @@ export default function SideBarUI({
                                         active={routeName === ROUTES.sale}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.sale}
-                                        icon={MdOutlineCurrencyExchange}
+                                        icon={IoQrCode}
                                     >
                                         Export
                                     </Sidebar.Item>
@@ -284,8 +302,8 @@ export default function SideBarUI({
                                         icon={RiToolsLine}
                                     >
                                         Warranty
-                                    </Sidebar.Item> 
-                                </Sidebar.Collapse>*/}
+                                    </Sidebar.Item>
+                                </Sidebar.Collapse>
                             </Sidebar.ItemGroup>
                         </Sidebar.Items>
                         <div className="absolute w-full left-0 bottom-5 bg-transparent">
@@ -337,14 +355,14 @@ export default function SideBarUI({
                                                 {staffInfo.email}
                                             </p>
                                         </Dropdown.Header>
-                                        {/* <Dropdown.Item
+                                        <Dropdown.Item
                                             theme={
                                                 dropdownTheme?.floating?.item
                                             }
                                             href="/home"
                                         >
                                             Dashboard
-                                        </Dropdown.Item> */}
+                                        </Dropdown.Item>
                                         <Dropdown.Item href="/setting">
                                             Settings
                                         </Dropdown.Item>

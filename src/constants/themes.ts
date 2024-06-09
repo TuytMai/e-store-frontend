@@ -1,3 +1,3 @@
-const THEMES = ["light", "dark", "blue", "holiday", "system"] as const;
+const THEMES = ["light", "dark", "system"] as const;
 
 export default THEMES;

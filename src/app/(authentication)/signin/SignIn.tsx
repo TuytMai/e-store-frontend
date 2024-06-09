@@ -15,13 +15,6 @@ import { HiArrowRight, HiMail } from "react-icons/hi";
 import HERO_IMAGE from "../../../assets/bg.png";
 import ControllerTextInput from "@/components/ControllerInput/ControllerTextInput";
 import SEARCH_PARAMS from "@/constants/searchParams";
-import { Yesteryear } from "next/font/google";
-
-const yesteryear = Yesteryear({
-    weight: "400",
-    subsets: ["latin"],
-    display: "swap",
-});
 
 export default function SignIn() {
     const router = useRouter();
