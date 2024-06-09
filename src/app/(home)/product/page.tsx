@@ -22,6 +22,11 @@ import { useQuery } from "react-query";
 import useScreen from "@/hooks/useScreen";
 import MenuButton from "@/components/SideBar/MenuButton";
 import FONT from "@/utils/fontFamily";
+import useLocalStorage from "@/hooks/useLocalStorage";
+import ItemGrid from "@/components/ItemGrid/ItemGrid";
+import ProductGridItem from "@/components/ProductGridItem/ProductGridItem";
+import { IoGridOutline, IoListSharp } from "react-icons/io5";
+import { useState } from "react";
 
 const font = FONT.primary;
 
@@ -51,9 +56,11 @@ export default function Page() {
 
     const isAllowedCreate = usePermission("PRODUCT", ["CREATE"]);
 
+    const [isViewList, setIsViewList] = useState(true);
+
     return (
         <div className="w-full h-full flex flex-col">
-            <div className=" w-full grid grid-cols-[repeat(12,1fr)] grid-rows-3 sm:grid-rows-2 gap-5 place-items-stretch">
+            <div className=" w-full grid grid-cols-[repeat(12,1fr)] grid-rows-3 md:grid-rows-1 sm:grid-rows-2 gap-5 place-items-stretch">
                 <ProductSearch className=" col-span-12 row-span-1 md:col-span-6 lg:col-span-6" />
                 <div className=" col-span-11 xl:col-span-4 sm:col-start-1 xl:col-start-7 row-start-2 sm:row-start-2 xl:row-start-1 row-span-2 sm:row-span-1 xl:row-span-1 flex flex-col flex-wrap sm:flex-row gap-5">
                     <CategoryFilter className="" />
@@ -89,45 +96,68 @@ export default function Page() {
                     type="filter"
                 />
             </div>
-            <DataTable
-                data={data || []}
-                isLoading={isLoading}
-                className="-mr-8 pr-8 mt-4"
-                entityType={"PRODUCT"}
-                onDelete={(product) => {
-                    openClaimModal(
-                        <>
-                            Do you want to delete product{" "}
-                            <span>{product.name}</span>
-                        </>,
-                        (confirm) =>
-                            confirm && deleteProductMutation.mutate(product),
-                    );
-                }}
-                onEdit={(product) => {
-                    openUpdateProductModal(product.id, refetch);
-                }}
-                pick={{
-                    name: {
-                        title: "Name",
-                        className: " font-normal min-w-[250px]",
-                    },
-                    category: { title: "Category" },
-                    price: {
-                        title: "Price",
-                        className: " font-normal text-secondary-500",
-                        mapper: FORMATTER.toCurrency,
-                    },
-                    quantity: {
-                        title: "Quantity",
-                        mapper: (value: number) => value || "0",
-                    },
-                    warrantyPeriod: {
-                        title: "Warranty period",
-                        mapper: (value: number) => `${value} months`,
-                    },
-                }}
-            />
+            <div className=" mt-4">
+                <Button
+                    onClick={() => setIsViewList((prev) => !prev)}
+                    btnType={"secondary"}
+                    className=" flex flex-1"
+                    title={isViewList ? "List view" : "Grid view"}
+                >
+                    {isViewList ? (
+                        <IoListSharp size={20} />
+                    ) : (
+                        <IoGridOutline size={20} />
+                    )}
+                </Button>
+            </div>
+            {isViewList ? (
+                <DataTable
+                    data={data || []}
+                    isLoading={isLoading}
+                    className="-mr-8 pr-8 mt-4"
+                    entityType={"PRODUCT"}
+                    onDelete={(product) => {
+                        openClaimModal(
+                            <>
+                                Do you want to delete product{" "}
+                                <span>{product.name}</span>
+                            </>,
+                            (confirm) =>
+                                confirm &&
+                                deleteProductMutation.mutate(product),
+                        );
+                    }}
+                    onEdit={(product) => {
+                        openUpdateProductModal(product.id, refetch);
+                    }}
+                    pick={{
+                        name: {
+                            title: "Name",
+                            className: " font-normal min-w-[250px]",
+                        },
+                        category: { title: "Category" },
+                        price: {
+                            title: "Price",
+                            className: " font-normal text-secondary-500",
+                            mapper: FORMATTER.toCurrency,
+                        },
+                        quantity: {
+                            title: "Quantity",
+                            mapper: (value: number) => value || "0",
+                        },
+                        warrantyPeriod: {
+                            title: "Warranty period",
+                            mapper: (value: number) => `${value} months`,
+                        },
+                    }}
+                />
+            ) : (
+                <ItemGrid
+                    className="-mr-8 pr-8 mt-4"
+                    items={data || []}
+                    renderItem={(item) => <ProductGridItem product={item} />}
+                />
+            )}
         </div>
     );
 }

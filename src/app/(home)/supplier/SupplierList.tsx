@@ -47,7 +47,7 @@ export default function SupplierList() {
             onEdit={(supplier) => {
                 openUpdateSupplierModal(supplier.id, refetch);
             }}
-            // onClickRow={(supplier) => router.push(`/supplier/${supplier.id}`)}
+            onClickRow={(supplier) => router.push(`/supplier/${supplier.id}`)}
             pick={{
                 name: {
                     title: "Name",
