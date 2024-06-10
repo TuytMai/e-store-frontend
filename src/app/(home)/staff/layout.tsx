@@ -91,11 +91,11 @@ export default function Layout({ children }: ReactNodeChildren) {
                     onEdit={(staff) => {
                         openUpdateStaffModal(staff.id, refetch);
                     }}
-                    // onClickRow={(staff: Staff) => {
-                    //     router.push(
-                    //         withQuery(`/staff/${staff.id}`, {}, searchParams),
-                    //     );
-                    // }}
+                    onClickRow={(staff: Staff) => {
+                        router.push(
+                            withQuery(`/staff/${staff.id}`, {}, searchParams),
+                        );
+                    }}
                     pick={{
                         name: { title: "Name", className: "min-w-[150px]" },
                         ...(pathname.split("/").at(-1) != "staff"
