@@ -125,6 +125,7 @@ const Page = () => {
                     billProducts.set(product.id, {
                         ...product,
                         productId: product.id,
+                        quantity: 1,
                     });
                     setBillProducts(new Map(billProducts.entries()));
                 }}

@@ -7,6 +7,7 @@ import SaleBill, {
     SaleProductResponse,
 } from "@/types/entity/SaleBill";
 import fetchWithToken from "@/utils/fetchWithToken";
+import Link from "next/link";
 
 export default async function Page({ params: { id } }: PropTypes) {
     const saleBillResponse = await fetchWithToken(API.saleBill.getDetail(id));
@@ -24,27 +25,29 @@ export default async function Page({ params: { id } }: PropTypes) {
         const customer = saleBill.revision.customer;
 
         return (
-            <Avatar
-                className="p-3 -mx-3 w-fit flex justify-start items-start rounded-lg hover:bg-background-hover cursor-pointer "
-                rounded
-                placeholderInitials={customer.name
-                    .split(" ")
-                    .slice(-2)
-                    .map((word) => word[0])
-                    .join("")}
-            >
-                <div>
-                    <p className=" font-semibold text-start text-secondary-950 text-sm">
-                        {customer.name}
-                    </p>
-                    <p className=" font-normal text-start text-secondary-600 text-sm">
-                        {customer.phone}
-                    </p>
-                    <p className=" font-normal text-start text-secondary-600 text-sm">
-                        {customer.address}
-                    </p>
-                </div>
-            </Avatar>
+            <Link href={`/customer/${customer.id}`}>
+                <Avatar
+                    className="p-3 -mx-3 w-fit flex justify-start items-start rounded-lg hover:bg-background-hover cursor-pointer "
+                    rounded
+                    placeholderInitials={customer.name
+                        .split(" ")
+                        .slice(-2)
+                        .map((word) => word[0])
+                        .join("")}
+                >
+                    <div>
+                        <p className=" font-semibold text-start text-secondary-950 text-sm">
+                            {customer.name}
+                        </p>
+                        <p className=" font-normal text-start text-secondary-600 text-sm">
+                            {customer.phone}
+                        </p>
+                        <p className=" font-normal text-start text-secondary-600 text-sm">
+                            {customer.address}
+                        </p>
+                    </div>
+                </Avatar>
+            </Link>
         );
     }
     return null;
