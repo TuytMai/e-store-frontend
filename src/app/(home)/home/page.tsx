@@ -17,7 +17,7 @@ export default function Home() {
 
     const isMobile = !screen("md");
 
-    redirect("/product");
+    // redirect("/home");
 
     return (
         <div className=" h-full flex-1 overflow-auto -m-5 p-5 lg:-my-8 lg:-ml-10 lg:-mr-8 lg:py-8 lg:pl-10 lg:pr-8 flex flex-col gap-10 bg-secondary-75">
@@ -31,7 +31,7 @@ export default function Home() {
             {isClient &&
                 (screen("xl") ? (
                     <div className=" flex flex-row gap-5 h-fit">
-                        <PreviewBusinessState />
+                        {/* <PreviewBusinessState /> */}
                         <div className=" flex-1 max-w-[1000px] relative bg-background-normal rounded-xl ">
                             <BusinessChart title={"Business chart"} />
                         </div>
