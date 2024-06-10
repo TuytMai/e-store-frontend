@@ -42,7 +42,10 @@ export default function ProductGridItem({ product }: Props) {
                 </p>
                 <div className=" px-2 mt-4">
                     <p className=" font-semibold">{product.name}</p>
-                    <p className=" mt-1">x{product.quantity} products</p>
+                    <p className=" mt-1">
+                        <span className=" font-bold">{product.quantity}</span>{" "}
+                        products
+                    </p>
                 </div>
             </div>
         </div>
