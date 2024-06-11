@@ -110,7 +110,7 @@ const Page = () => {
     const isMobile = !screen("md");
 
     return (
-        <div className=" h-full col-span-2 flex flex-col lg:overflow-y-auto pl-2">
+        <div className=" h-full col-span-2 flex flex-col pl-2">
             <p className=" font-semibold text-color-heading text-2xl">
                 Product List
             </p>
@@ -198,7 +198,7 @@ const Page = () => {
                             </span>
                         </p>
                     </div>
-                    <ControllerSelectInput
+                    {/* <ControllerSelectInput
                         className="mt-4 w-1/2"
                         control={billControll}
                         name="payment"
@@ -207,7 +207,7 @@ const Page = () => {
                         onValueChange={(value) =>
                             value && setValue("paymentMethod", value)
                         }
-                    />
+                    /> */}
                 </div>
                 <div className=" flex gap-5 justify-end sm:justify-normal">
                     <Button btnType="secondary">Cancel</Button>
