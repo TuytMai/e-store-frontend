@@ -295,14 +295,14 @@ export default function SideBarUI({
                                     >
                                         Invoices
                                     </Sidebar.Item>
-                                    <Sidebar.Item
+                                    {/* <Sidebar.Item
                                         active={routeName === ROUTES.warranty}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.warranty}
                                         icon={RiToolsLine}
                                     >
                                         Warranty
-                                    </Sidebar.Item>
+                                    </Sidebar.Item> */}
                                 </Sidebar.Collapse>
                             </Sidebar.ItemGroup>
                         </Sidebar.Items>

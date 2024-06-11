@@ -18,17 +18,47 @@ import { CustomerContext } from "@/contexts/CustomerContext";
 import useLoading from "@/hooks/useLoading";
 import WarrantyBill, { WarrantyProduct } from "@/types/entity/WarrantyBill";
 import _ from "lodash";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import addNewCustomer from "@/api/customer/addNewCustomer.api";
+import Product from "@/types/entity/Product";
+import viewDetailProduct from "@/api/product/viewDetailProduct.api";
+import { Textarea } from "flowbite-react";
+import { useSearchParams } from "next/navigation";
+import viewDetailCustomer from "@/api/customer/viewDetailCustomer";
+import Customer from "@/types/entity/Customer";
 
 const Page = () => {
+    const searchParams = useSearchParams();
+
+    const id = searchParams.get("productId");
+    const customerId = searchParams.get("customerId");
+
     const [billProducts, setBillProducts] = useState<
         Map<string, WarrantyProduct>
     >(new Map<string, WarrantyProduct>());
 
-    const { customer } = useContext(CustomerContext);
-
     const { openLoading, closeLoading } = useLoading();
+
+    const [reason, setReason] = useState<string>("");
+    const [note, setNote] = useState<string>("");
+
+    const {
+        data: product,
+        isLoading: isProductLoading,
+        refetch,
+    } = useQuery<Product>(["product", id], viewDetailProduct, {
+        refetchOnMount: "always",
+        cacheTime: 0,
+    });
+
+    const { data: customer } = useQuery<Customer>(
+        ["customer", customerId],
+        viewDetailCustomer,
+        {
+            refetchOnMount: "always",
+            cacheTime: 0,
+        },
+    );
 
     const addNewWarrantyBillMutation = useMutation(addNewWarrantyBill, {
         onMutate: () => {
@@ -55,50 +85,54 @@ const Page = () => {
         },
     });
 
-    function getTotalInfo() {
-        let quantity = 0;
-        billProducts.forEach((product) => {
-            quantity += 1 * product.quantity;
-        });
+    // async function getRequest() {
+    //     let newCustomer;
 
-        return { quantity };
-    }
+    //     if (!customer?.id) {
+    //         if (customer) {
+    //             newCustomer = await addNewCustomer(customer);
+    //         }
+    //     }
 
-    async function getRequest() {
-        let newCustomer;
+    //     const warrantyProducts = Array.from(billProducts.values()).map(
+    //         (product) => ({
+    //             ..._.pick(product, ["warrantyContent", "quantity", "note"]),
+    //             productId: product.id,
+    //             id: product.id,
+    //             status: "pending",
+    //         }),
+    //     );
 
-        if (!customer?.id) {
-            if (customer) {
-                newCustomer = await addNewCustomer(customer);
-            }
-        }
-
-        const warrantyProducts = Array.from(billProducts.values()).map(
-            (product) => ({
-                ..._.pick(product, ["warrantyContent", "quantity", "note"]),
-                productId: product.id,
-                id: product.id,
-                status: "pending",
-            }),
-        );
-
-        return {
-            customerId: customer?.id || newCustomer?.id,
-            warrantyProducts,
-        };
-    }
+    //     return {
+    //         customerId: customer?.id || newCustomer?.id,
+    //         warrantyProducts,
+    //     };
+    // }
 
     async function onSubmit() {
-        const request = await getRequest();
-        addNewWarrantyBillMutation.mutate(request);
+        // const request = await getRequest();
+        if (customerId && id) {
+            addNewWarrantyBillMutation.mutate({
+                customerId: customerId,
+                warrantyProducts: [
+                    {
+                        productId: id,
+                        quantity: 1,
+                        note,
+                        warrantyContent: reason,
+                        id: id,
+                    },
+                ],
+            });
+        }
     }
 
     return (
-        <div className=" h-full col-span-2 flex flex-col overflow-y-auto pl-2">
-            <p className=" font-semibold text-color-heading text-2xl">
-                Product List
+        <div className=" h-full col-span-2 flex flex-col pl-2">
+            <p className=" font-semibold text-color-heading text-lg">
+                Product information
             </p>
-            <SearchInput
+            {/* <SearchInput
                 title="Search for product to add to import bill"
                 placeholder="Enter product name here..."
                 queryInfo={{
@@ -113,8 +147,8 @@ const Page = () => {
                     setBillProducts(new Map(billProducts.entries()));
                 }}
                 className=" w-1/2 mt-5"
-            />
-            <BillProductTable
+            /> */}
+            {/* <BillProductTable
                 className="mt-8 flex-1"
                 data={billProducts}
                 onChange={(id, product) => {
@@ -153,9 +187,28 @@ const Page = () => {
                         size: 2,
                     },
                 }}
+            /> */}
+
+            <p className=" mt-4 text-secondary-600">Product name</p>
+            <p className=" mt-1 font-bold text-lg">{product?.name}</p>
+
+            <p className=" mt-4 text-secondary-950 font-medium">Reason</p>
+            <Textarea
+                className={` mt-2 w-2/3 font-normal`}
+                value={reason}
+                rows={Math.max(4, reason.split("\n").length || 3)}
+                onChange={(e) => setReason(e.target.value)}
+            />
+
+            <p className=" mt-4 text-secondary-950 font-medium">Note</p>
+            <Textarea
+                className={` mt-2 w-2/3 font-normal`}
+                value={note}
+                rows={Math.max(2, note.split("\n").length || 3)}
+                onChange={(e) => setNote(e.target.value)}
             />
             <div className=" mt-4 flex-none flex items-end w-full">
-                <div className="flex-1 flex flex-col gap-1">
+                {/* <div className="flex-1 flex flex-col gap-1">
                     <div className="flex flex-col gap-1">
                         <p className=" text-secondary-950">
                             Total items:{"  "}
@@ -164,7 +217,7 @@ const Page = () => {
                             </span>
                         </p>
                     </div>
-                </div>
+                </div> */}
                 <div className=" flex gap-5">
                     <Button btnType="secondary">Cancel</Button>
                     <Button className=" flex" onClick={() => onSubmit()}>

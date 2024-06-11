@@ -25,6 +25,8 @@ import { useMutation } from "react-query";
 import useScreen from "@/hooks/useScreen";
 import BillProductList from "@/components/BillProductList/BillProductList";
 import UploadFile from "@/components/UploadFile/UploadFile";
+import { read, utils } from "xlsx";
+import viewDetailProduct from "@/api/product/viewDetailProduct.api";
 
 const Page = () => {
     const [billProducts, setBillProducts] = useState<
@@ -106,7 +108,33 @@ const Page = () => {
                 <p className=" w-full font-semibold text-color-heading text-2xl">
                     Product List
                 </p>
-                <UploadFile />
+                <UploadFile
+                    onFileChange={async (file) => {
+                        const ab = await file?.arrayBuffer();
+                        if (ab) {
+                            const wb = read(ab);
+                            const ws = wb.Sheets[wb.SheetNames[0]]; // get the first worksheet
+                            const data: UploadFileRow[] =
+                                utils.sheet_to_json(ws); // generate objects
+
+                            data.forEach(
+                                async ({ price, product_id, quantity }) => {
+                                    const product = await viewDetailProduct({
+                                        queryKey: ["product", product_id],
+                                    });
+                                    billProducts.set(product_id, {
+                                        ...product,
+                                        price,
+                                        quantity,
+                                    } as ProductPreview);
+                                    setBillProducts(
+                                        new Map(billProducts.entries()),
+                                    );
+                                },
+                            );
+                        }
+                    }}
+                />
             </div>
             <SearchInput
                 title="Search for product to add to import bill"
@@ -212,6 +240,12 @@ const Page = () => {
             </div>
         </div>
     );
+};
+
+type UploadFileRow = {
+    price: number;
+    product_id: string;
+    quantity: number;
 };
 
 const PAYMENT_METHOD = [
