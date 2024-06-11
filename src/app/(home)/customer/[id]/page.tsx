@@ -55,15 +55,13 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
                 <div>
                     <div className=" flex flex-row gap-4 items-center">
                         <Button
-                            onClick={() => router.push("/product")}
+                            onClick={() => router.push("/customer")}
                             btnType={"secondary"}
                             className=" !px-0"
                         >
                             <IoChevronBackOutline size={20} />
                         </Button>
-                        <p className=" font-semibold text-2xl">
-                            {customer.name}
-                        </p>
+                        <p className=" font-bold text-2xl">{customer.name}</p>
                         <Button
                             onClick={() => open(id, refetch)}
                             btnType={"secondary"}
@@ -80,7 +78,7 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
                     <div>
                         <p className=" text-secondary-600">Phone</p>
                         <p className=" mt-1">
-                            <span className=" text-xl font-bold">
+                            <span className=" text-lg font-bold">
                                 {customer.phone}
                             </span>{" "}
                         </p>
@@ -88,7 +86,7 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
                     <div className=" mt-5">
                         <p className=" text-secondary-600">Address</p>
                         <p className=" mt-1">
-                            <span className="text-xl font-bold">
+                            <span className="text-lg font-bold">
                                 {customer.address}
                             </span>
                         </p>
@@ -127,7 +125,12 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
                                         ({ product, price, quantity }) => (
                                             <div
                                                 key={product.id}
-                                                className=" pr-8 flex flex-row justify-between items-center"
+                                                onClick={() => {
+                                                    router.push(
+                                                        `/warranty?customerId=${id}&productId=${product.id}`,
+                                                    );
+                                                }}
+                                                className=" pr-8 flex flex-row justify-between items-center hover:bg-secondary-100 hover:cursor-pointer p-2 rounded-lg"
                                             >
                                                 <div className=" flex items-center gap-4">
                                                     <div className=" rounded-lg">
