@@ -9,9 +9,12 @@ import {
     AccordionTitle,
     CustomFlowbiteTheme,
 } from "flowbite-react";
+import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 
 export default function SupplierProducts({ id }: { id: string }) {
+    const router = useRouter();
+
     const {
         data: products,
         isLoading: isSupplierProductstLoading,
@@ -35,6 +38,9 @@ export default function SupplierProducts({ id }: { id: string }) {
                     {products?.map((product) => (
                         <div
                             key={product.id}
+                            onClick={() => {
+                                router.push(`/product/${product.id}`);
+                            }}
                             className=" my-1 px-4 py-2 rounded-lg hover:bg-secondary-100 hover:cursor-pointer flex flex-row gap-4 items-center"
                         >
                             <p className=" font-semibold">{product.name}</p>
