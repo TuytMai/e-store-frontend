@@ -122,59 +122,111 @@ export default function Page({ params: { id } }: { params: { id: string } }) {
                                     theme={customAccordionTheme?.content}
                                 >
                                     {revision.saleProducts.map(
-                                        ({ product, price, quantity }) => (
-                                            <div
-                                                key={product.id}
-                                                onClick={() => {
-                                                    router.push(
-                                                        `/warranty?customerId=${id}&productId=${product.id}`,
-                                                    );
-                                                }}
-                                                className=" pr-8 flex flex-row justify-between items-center hover:bg-secondary-100 hover:cursor-pointer p-2 rounded-lg"
-                                            >
-                                                <div className=" flex items-center gap-4">
-                                                    <div className=" rounded-lg">
-                                                        <Image
-                                                            src={
-                                                                product?.photoURL
-                                                                    ?.split(";")
-                                                                    ?.filter(
-                                                                        (
-                                                                            v: any,
-                                                                        ) => v,
-                                                                    )?.[0]
-                                                            }
-                                                            width={50}
-                                                            height={50}
-                                                            alt="Product preview image"
-                                                        />
+                                        ({ product, price, quantity }) => {
+                                            const warrantyDate = new Date(
+                                                new Date(timestamp).setMonth(
+                                                    new Date(
+                                                        timestamp,
+                                                    ).getMonth() +
+                                                        product.warrantyPeriod,
+                                                ),
+                                            );
+
+                                            return (
+                                                <div
+                                                    key={product.id}
+                                                    onClick={() => {
+                                                        if (
+                                                            warrantyDate.getTime() >
+                                                            new Date().getTime()
+                                                        )
+                                                            router.push(
+                                                                `/warranty?customerId=${id}&productId=${product.id}`,
+                                                            );
+                                                        else
+                                                            alert(
+                                                                "Can not create warranty with this product",
+                                                            );
+                                                    }}
+                                                    className=" pr-8 flex flex-row justify-between items-center hover:bg-secondary-100 hover:cursor-pointer p-2 rounded-lg"
+                                                >
+                                                    <div className=" flex items-center gap-4">
+                                                        <div className=" rounded-lg overflow-hidden">
+                                                            <Image
+                                                                src={
+                                                                    product?.photoURL
+                                                                        ?.split(
+                                                                            ";",
+                                                                        )
+                                                                        ?.filter(
+                                                                            (
+                                                                                v: any,
+                                                                            ) =>
+                                                                                v,
+                                                                        )?.[0]
+                                                                }
+                                                                width={50}
+                                                                height={50}
+                                                                alt="Product preview image"
+                                                            />
+                                                        </div>
+                                                        <div className=" flex flex-col gap-1">
+                                                            <div className=" flex flex-row gap-2 items-center">
+                                                                <p className=" font-bold">
+                                                                    {
+                                                                        product.name
+                                                                    }
+                                                                </p>
+                                                                <p
+                                                                    className={`text-xs p-1 rounded-md ${
+                                                                        warrantyDate.getTime() >
+                                                                        new Date().getTime()
+                                                                            ? " bg-green-400"
+                                                                            : " bg-red-500"
+                                                                    }`}
+                                                                >
+                                                                    <span>
+                                                                        Warranty
+                                                                        date:{" "}
+                                                                    </span>
+                                                                    <span className=" font-semibold">
+                                                                        {new Intl.DateTimeFormat(
+                                                                            "en-GB",
+                                                                            {
+                                                                                dateStyle:
+                                                                                    "short",
+                                                                                timeZone:
+                                                                                    "Asia/Ho_Chi_Minh",
+                                                                            },
+                                                                        ).format(
+                                                                            warrantyDate,
+                                                                        )}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                            <p className=" text-sm">
+                                                                Price:{" "}
+                                                                <span className=" font-semibold">
+                                                                    {FORMATTER.toCurrency(
+                                                                        product.price,
+                                                                    )}
+                                                                </span>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div className=" flex flex-col gap-1">
-                                                        <p className=" font-bold">
-                                                            {product.name}
-                                                        </p>
-                                                        <p className=" text-sm">
-                                                            Price:{" "}
-                                                            <span className=" font-semibold">
-                                                                {FORMATTER.toCurrency(
-                                                                    product.price,
-                                                                )}
+                                                    <div>
+                                                        <p className="">
+                                                            <span className=" font-bold text-3xl">
+                                                                {quantity}
+                                                            </span>{" "}
+                                                            <span>
+                                                                {product.unit}
                                                             </span>
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <p className="">
-                                                        <span className=" font-bold text-3xl">
-                                                            {quantity}
-                                                        </span>{" "}
-                                                        <span>
-                                                            {product.unit}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ),
+                                            );
+                                        },
                                     )}
                                 </AccordionContent>
                             </AccordionPanel>
