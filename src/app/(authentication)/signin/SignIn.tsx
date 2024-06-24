@@ -5,22 +5,30 @@ import LOGO from "../../../assets/logo.png";
 
 import Button from "@/components/Button/Button";
 import CheckBox from "@/components/Checkbox/CheckBox";
+import ControllerTextInput from "@/components/ControllerInput/ControllerTextInput";
+import RoleSelection from "@/components/RoleSelection/RoleSelection";
 import Link from "@/components/Typography/Link";
 import API from "@/constants/apiEnpoint";
+import SEARCH_PARAMS from "@/constants/searchParams";
 import { publicFetcher } from "@/hooks/usePublicRoute";
+import { UserRole } from "@/types/Role";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { HiArrowRight, HiMail } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi";
+import { IoPerson } from "react-icons/io5";
 import HERO_IMAGE from "../../../assets/bg.png";
-import ControllerTextInput from "@/components/ControllerInput/ControllerTextInput";
-import SEARCH_PARAMS from "@/constants/searchParams";
 
-export default function SignIn() {
+type Props = {
+    role: UserRole | null;
+};
+
+export default function SignIn({ role: defaultRole }: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [role, setRole] = useState<UserRole | null>(defaultRole);
 
     const {
         register,
@@ -73,42 +81,41 @@ export default function SignIn() {
                                 alt="logo"
                             />
                             <h1 className=" mb-14 text-2xl sm:text-3xl text-center font-semibold text-secondary-900">
-                                Electronic Store
+                                Phuc khao
                             </h1>
-                            {/* <p
-                            className={`absolute right-16 bottom-8 sm:top-5 translate-x-full text-2xl sm:text-4xl text-primary-500 ${yesteryear.className}`}
-                            style={{
-                                background:
-                                    "linear-gradient(90deg, #16B6FA 0%, #DC02FF 100%)",
-                                backgroundClip: "text",
-                                WebkitBackgroundClip: "text",
-                                WebkitTextFillColor: "transparent",
-                            }}
-                        >
-                            Management
-                        </p> */}
+                            {/* {role ? (
+                                <p
+                                    className={`absolute whitespace-nowrap right-16 bottom-8 sm:top-5 translate-x-full text-2xl sm:text-4xl text-primary-500 ${FONT.yesteryear.className}`}
+                                    style={{
+                                        background:
+                                            "linear-gradient(90deg, #16B6FA 0%, #DC02FF 100%)",
+                                        backgroundClip: "text",
+                                        WebkitBackgroundClip: "text",
+                                        WebkitTextFillColor: "transparent",
+                                    }}
+                                >
+                                    {role}
+                                </p>
+                            ) : null} */}
                         </div>
+                        <RoleSelection
+                            selected={role}
+                            onValueChange={setRole}
+                        />
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className=" mx-auto max-w-[300px] sm:max-w-none"
+                            className=" mt-8 mx-auto max-w-[300px] sm:max-w-none"
                         >
                             <ControllerTextInput
                                 control={control}
                                 name="username"
-                                title="Email"
+                                title="Tên đăng nhập"
                                 rules={{
-                                    required: "Email is required",
-                                    validate: (value: any) => {
-                                        const regex =
-                                            /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-                                        if (!regex.test(value)) {
-                                            return "You must type email here";
-                                        }
-                                    },
+                                    required: "Bạn cần nhập tên đăng nhập",
                                 }}
-                                icon={HiMail}
+                                icon={IoPerson}
                                 register={register}
-                                placeholder="yourmail@gmail.com"
+                                placeholder="Nhập tên đăng nhập..."
                                 onValueChange={(d: any) => {
                                     clearErrors("username");
                                 }}
@@ -118,10 +125,10 @@ export default function SignIn() {
                                 control={control}
                                 type="password"
                                 name="password"
-                                title="Password"
-                                rules={{ required: "Password is required" }}
+                                title="Mật khẩu"
+                                rules={{ required: "Bạn cần nhập mật khẩu" }}
                                 register={register}
-                                placeholder="Enter your password"
+                                placeholder="Nhập mật khẩu..."
                                 onValueChange={(d: any) => {
                                     clearErrors("password");
                                 }}

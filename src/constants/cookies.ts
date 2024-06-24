@@ -5,6 +5,7 @@ const COOKIE_NAME = {
     THEME: "theme",
     SELECTED_THEME: "selected-theme",
     FONT_SIZE: "font-size",
+    ROLE: "role",
 };
 
 export default COOKIE_NAME;

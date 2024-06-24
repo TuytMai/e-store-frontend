@@ -22,6 +22,14 @@ export default async function Layout({ children }: ReactNodeChildren) {
 
     const redirectURI = headers().get(COOKIE_NAME.XURL) || "";
 
+    console.log({ accessToken });
+    if (!accessToken)
+        redirect(
+            withQuery("/signin", {
+                [SEARCH_PARAMS.redirectUri]: redirectURI,
+            }),
+        );
+
     const staffInfoResponse = await fetch(API.staff.getStaffProfile, {
         headers: {
             Authorization: `Bearer ${accessToken}`,

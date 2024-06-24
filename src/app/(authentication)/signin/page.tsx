@@ -1,20 +1,26 @@
 import withQuery from "@/utils/withQuery";
 import SignIn from "./SignIn";
 
+import API from "@/constants/apiEnpoint";
+import COOKIE_NAME from "@/constants/cookies";
+import { UserRole } from "@/types/Role";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import API from "@/constants/apiEnpoint";
 
 export default async function Page() {
     const myHeaders = new Headers();
     const accessToken = cookies().get("accessToken")?.value || "";
-    myHeaders.append("Authorization", `Bearer ${accessToken}`);
+    const role = (cookies().get(COOKIE_NAME.ROLE)?.value as UserRole) || null;
 
-    const staffInfoResponse = await fetch(API.staff.getStaffProfile, {
-        headers: myHeaders,
-    });
+    if (accessToken) {
+        myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
-    if (staffInfoResponse.status === 200) redirect(withQuery("/home", {}));
+        const staffInfoResponse = await fetch(API.staff.getStaffProfile, {
+            headers: myHeaders,
+        });
 
-    return <SignIn />;
+        if (staffInfoResponse.status === 200) redirect(withQuery("/home", {}));
+    }
+
+    return <SignIn role={role} />;
 }
