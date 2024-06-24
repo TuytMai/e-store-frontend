@@ -13,6 +13,7 @@ import { useSideBarState } from "@/contexts/SideBar";
 import { UserRole } from "@/types/Role";
 import { Navbar } from "flowbite-react";
 import { useTheme } from "next-themes";
+import TextInput from "../Input/TextInput";
 
 export default function SideBarUI({
     staffInfo,
@@ -49,7 +50,16 @@ export default function SideBarUI({
                     Phuc khao
                 </span>
             </Navbar.Brand>
-            <Navbar.Toggle />
+            <div className="">
+                <div className="">
+                    <TextInput
+                        sizing={"sm"}
+                        className=" lg:min-w-[500px]"
+                        placeholder="Search for feature..."
+                    />
+                </div>
+                <Navbar.Toggle />
+            </div>
             <Navbar.Collapse>
                 <Navbar.Link href={`/${role}`} active>
                     Home
