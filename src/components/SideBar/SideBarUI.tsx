@@ -2,39 +2,7 @@
 
 import { Avatar, CustomFlowbiteTheme, Dropdown, Sidebar } from "flowbite-react";
 import Image from "next/image";
-import { AiFillCustomerService } from "react-icons/ai";
-import {
-    HiBookmark,
-    HiChartPie,
-    HiChevronLeft,
-    HiClipboardCheck,
-    HiDocumentSearch,
-    HiMenu,
-    HiSave,
-    HiShoppingBag,
-    HiUserGroup,
-} from "react-icons/hi";
-import {
-    IoHome,
-    IoBagHandle,
-    IoFlowerSharp,
-    IoBookmarks,
-    IoPeopleSharp,
-    IoStorefront,
-    IoPerson,
-    IoPrint,
-    IoReceipt,
-    IoReader,
-    IoCloudUpload,
-    IoCloudDownload,
-    IoBagAdd,
-    IoArrowDownCircle,
-    IoMedkit,
-    IoQrCode,
-} from "react-icons/io5";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { PiTruckDuotone } from "react-icons/pi";
-import { RiToolsLine } from "react-icons/ri";
+import { HiChartPie, HiChevronLeft } from "react-icons/hi";
 
 import COOKIE_NAME from "@/constants/cookies";
 import useScreen from "@/hooks/useScreen";
@@ -42,25 +10,26 @@ import Staff from "@/types/entity/Staff";
 import { deleteCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { MdOutlineCurrencyExchange } from "react-icons/md";
-import LOGO from "../../assets/logo.png";
 import LOGO_TET from "../../assets/logo-tet.png";
+import LOGO from "../../assets/logo.png";
 import FONT from "../../utils/fontFamily";
 
 import { useSideBarState } from "@/contexts/SideBar";
+import { ALL_ROLES, UserRole } from "@/types/Role";
 import { Transition } from "@headlessui/react";
-import Link from "next/link";
 import { useTheme } from "next-themes";
 
 export default function SideBarUI({
     staffInfo,
+    role,
     isCollapse: _isCollapse,
 }: PropTypes) {
     const router = useRouter();
     const pathname = usePathname();
-    const routeName = (pathname.split("/").at(1) || "") + "/";
+    const routeName = (pathname.split("/").slice(1, 3).join("/") || "") + "/";
     const screen = useScreen();
     const isMobile = !screen("md");
+    console.log({ routeName });
 
     const { theme } = useTheme();
 
@@ -150,6 +119,16 @@ export default function SideBarUI({
                         <Sidebar.Items>
                             <Sidebar.ItemGroup>
                                 <Sidebar.Item
+                                    theme={sideBarTheme?.item}
+                                    active={
+                                        routeName === `/${role}/${ROUTES.home}`
+                                    }
+                                    href={`/${role}/${ROUTES.home}`}
+                                    icon={HiChartPie}
+                                >
+                                    Home
+                                </Sidebar.Item>
+                                {/* <Sidebar.Item
                                     theme={sideBarTheme?.item}
                                     active={routeName === ROUTES.home}
                                     href={ROUTES.home}
@@ -295,15 +274,15 @@ export default function SideBarUI({
                                     >
                                         Invoices
                                     </Sidebar.Item>
-                                    {/* <Sidebar.Item
+                                     <Sidebar.Item
                                         active={routeName === ROUTES.warranty}
                                         theme={sideBarCollapsedItemTheme?.item}
                                         href={ROUTES.warranty}
                                         icon={RiToolsLine}
                                     >
                                         Warranty
-                                    </Sidebar.Item> */}
-                                </Sidebar.Collapse>
+                                    </Sidebar.Item>
+                                </Sidebar.Collapse> */}
                             </Sidebar.ItemGroup>
                         </Sidebar.Items>
                         <div className="absolute w-full left-0 bottom-5 bg-transparent">
@@ -312,32 +291,22 @@ export default function SideBarUI({
                                     className="p-2 flex rounded-lg hover:bg-background-hover cursor-pointer "
                                     rounded
                                     onClick={() => setIsCollapse(false)}
-                                    placeholderInitials={staffInfo.name
-                                        .split(" ")
-                                        .slice(-2)
-                                        .map((word) => word[0])
-                                        .join("")}
                                 ></Avatar>
                             ) : (
-                                <div className="mx-4 ">
+                                <div className="mx-4">
                                     <Dropdown
                                         theme={dropdownTheme}
                                         label={
                                             <Avatar
-                                                className="p-2 flex rounded-lg hover:bg-background-hover cursor-pointer "
+                                                className=" w-full p-2 flex justify-start rounded-lg hover:bg-background-hover cursor-pointer "
                                                 rounded
-                                                placeholderInitials={staffInfo.name
-                                                    .split(" ")
-                                                    .slice(-2)
-                                                    .map((word) => word[0])
-                                                    .join("")}
                                             >
-                                                <div>
+                                                <div className="">
                                                     <p className=" font-semibold text-start text-secondary-950 text-sm">
-                                                        {staffInfo.name}
+                                                        User
                                                     </p>
                                                     <p className=" font-normal text-start text-secondary-600 text-sm">
-                                                        {staffInfo.email}
+                                                        {ALL_ROLES[role]}
                                                     </p>
                                                 </div>
                                             </Avatar>
@@ -349,11 +318,11 @@ export default function SideBarUI({
                                             theme={dropdownTheme?.floating}
                                         >
                                             <p className=" font-semibold text-start text-secondary-950 text-sm">
-                                                {staffInfo.name}
+                                                User
                                             </p>
-                                            <p className=" font-normal text-start text-secondary-600 text-sm">
+                                            {/* <p className=" font-normal text-start text-secondary-600 text-sm">
                                                 {staffInfo.email}
-                                            </p>
+                                            </p> */}
                                         </Dropdown.Header>
                                         <Dropdown.Item
                                             theme={
@@ -413,7 +382,7 @@ export default function SideBarUI({
 }
 
 const ROUTES = {
-    home: "/home",
+    home: "home",
     product: "/product",
     supplier: "/supplier",
     category: "/category",
@@ -560,5 +529,6 @@ const dropdownTheme: CustomFlowbiteTheme["dropdown"] = {
 
 type PropTypes = {
     isCollapse: boolean;
-    staffInfo: Staff;
+    staffInfo?: Staff;
+    role: UserRole;
 };

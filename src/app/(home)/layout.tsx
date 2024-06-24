@@ -1,3 +1,4 @@
+import SideBar from "@/components/SideBar/SideBar";
 import COOKIE_NAME from "@/constants/cookies";
 import SEARCH_PARAMS from "@/constants/searchParams";
 import { ModalProvider } from "@/contexts/ModalContext";
@@ -23,6 +24,7 @@ export default async function Layout({ children }: ReactNodeChildren) {
     return (
         <ModalProvider>
             <div className=" relative w-screen h-screen flex">
+                <SideBar />
                 <div className=" w-full h-screen bg-background-normal ">
                     <div className=" z-10 p-5 lg:py-8 lg:pl-10 lg:pr-8 w-full h-screen flex flex-col overflow-hidden">
                         {children}
