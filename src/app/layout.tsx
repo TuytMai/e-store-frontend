@@ -10,11 +10,11 @@ import THEMES from "@/constants/themes";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "E-Store",
-    description: "Electronic Store",
+    title: "Phuc khao",
+    description: "Phuc khao",
     generator: "Next.js",
     manifest: "/manifest.json",
-    keywords: ["e-store", "electronis", "store"],
+    keywords: ["phuc-khao"],
     icons: [
         { rel: "apple-touch-icon", url: "icons/icon-128x128.png" },
         { rel: "icon", url: "icons/icon-128x128.png" },
