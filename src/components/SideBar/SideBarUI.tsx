@@ -1,22 +1,17 @@
 "use client";
 
-import { Avatar, CustomFlowbiteTheme, Dropdown, Sidebar } from "flowbite-react";
-import Image from "next/image";
-import { HiChartPie, HiChevronLeft } from "react-icons/hi";
+import { CustomFlowbiteTheme } from "flowbite-react";
 
 import COOKIE_NAME from "@/constants/cookies";
 import useScreen from "@/hooks/useScreen";
 import Staff from "@/types/entity/Staff";
-import { deleteCookie, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import LOGO_TET from "../../assets/logo-tet.png";
-import LOGO from "../../assets/logo.png";
-import FONT from "../../utils/fontFamily";
 
 import { useSideBarState } from "@/contexts/SideBar";
-import { ALL_ROLES, UserRole } from "@/types/Role";
-import { Transition } from "@headlessui/react";
+import { UserRole } from "@/types/Role";
+import { Navbar } from "flowbite-react";
 import { useTheme } from "next-themes";
 
 export default function SideBarUI({
@@ -48,336 +43,20 @@ export default function SideBarUI({
     }, [isCollapse]);
 
     return (
-        // <div className={`w-screen sm:w-fit h-screen`}>
-        <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative h-screen w-fit duration-300 transition-all"
-        >
-            <Transition show={!isMobile || !isCollapse} className=" w-fit z-20">
-                <Transition.Child
-                    enter="transition-opacity ease-linear duration-500"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition-opacity ease-linear duration-500"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    {isMobile && (
-                        <div
-                            onClick={() => {
-                                if (isMobile && !isCollapse) {
-                                    setIsCollapse((prev) => !prev);
-                                }
-                            }}
-                            className=" absolute top-0 left-0 opacity-70 w-screen h-screen bg-zinc-900"
-                        />
-                    )}
-                </Transition.Child>
-                <Transition.Child
-                    className=" h-screen relative z-20"
-                    enter="transition ease-in-out duration-500 transform"
-                    enterFrom="-translate-x-full"
-                    enterTo="translate-x-0"
-                    leave="transition ease-in-out duration-500 transform"
-                    leaveFrom="translate-x-0"
-                    leaveTo="-translate-x-full"
-                >
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsCollapse((prev) => !prev);
-                        }}
-                        className={` w-fit z-10 right-2 transition-all duration-300 absolute rounded-md border-0 p-1 top-6 bg-background-normal active:shadow-md active:bg-background-active ${
-                            isMobile || " hidden"
-                        }`}
-                    >
-                        <HiChevronLeft
-                            className={` z-10 text-secondary-300 w-6 h-6`}
-                        />
-                    </button>
-                    <Sidebar
-                        theme={sideBarTheme}
-                        collapsed={!isMobile && isCollapse}
-                        aria-label="Sidebar with multi-level dropdown example"
-                        className=" relative z-0"
-                    >
-                        <div className=" flex gap-2 pl-1 pt-2 mb-12">
-                            <Image
-                                src={theme == "holiday" ? LOGO_TET : LOGO}
-                                width={30}
-                                height={30}
-                                alt="logo"
-                            />
-                            {isCollapse ? null : (
-                                <h1
-                                    className={` ml-3 text-2xl text-secondary-950 font-semibold ${FONT.inter.className}`}
-                                >
-                                    E-Store
-                                </h1>
-                            )}
-                        </div>
-                        <Sidebar.Items>
-                            <Sidebar.ItemGroup>
-                                <Sidebar.Item
-                                    theme={sideBarTheme?.item}
-                                    active={
-                                        routeName === `/${role}/${ROUTES.home}`
-                                    }
-                                    href={`/${role}/${ROUTES.home}`}
-                                    icon={HiChartPie}
-                                >
-                                    Home
-                                </Sidebar.Item>
-                                {/* <Sidebar.Item
-                                    theme={sideBarTheme?.item}
-                                    active={routeName === ROUTES.home}
-                                    href={ROUTES.home}
-                                    icon={HiChartPie}
-                                >
-                                    Dashboard
-                                </Sidebar.Item>
-                                <Sidebar.Collapse
-                                    theme={sideBarTheme?.collapse}
-                                    href={isCollapse ? ROUTES.product : ""}
-                                    open={
-                                        [
-                                            ROUTES.category,
-                                            ROUTES.product,
-                                        ].includes(routeName) && !isCollapse
-                                    }
-                                    icon={IoBagHandle}
-                                    label="Product"
-                                >
-                                    <Sidebar.Item
-                                        active={routeName === ROUTES.product}
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.product}
-                                        icon={IoBagAdd}
-                                    >
-                                        Product List
-                                    </Sidebar.Item>
-                                    <Sidebar.Item
-                                        active={routeName === ROUTES.category}
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.category}
-                                        icon={IoBookmarks}
-                                    >
-                                        Category
-                                    </Sidebar.Item>
-                                </Sidebar.Collapse>
-                                <Sidebar.Item
-                                    active={routeName === ROUTES.supplier}
-                                    theme={sideBarCollapsedItemTheme?.item}
-                                    href={ROUTES.supplier}
-                                    icon={IoStorefront}
-                                >
-                                    Supplier
-                                </Sidebar.Item>
-                                <Sidebar.Item
-                                    active={routeName === ROUTES.customer}
-                                    theme={sideBarCollapsedItemTheme?.item}
-                                    href={ROUTES.customer}
-                                    icon={IoPerson}
-                                >
-                                    Customer
-                                </Sidebar.Item>
-                                <Sidebar.Item
-                                    active={routeName === ROUTES.staff}
-                                    theme={sideBarCollapsedItemTheme?.item}
-                                    href={ROUTES.staff}
-                                    icon={IoPeopleSharp}
-                                >
-                                    Staff
-                                </Sidebar.Item>
-                                <Sidebar.Collapse
-                                    theme={sideBarTheme?.collapse}
-                                    href={isCollapse ? ROUTES.import : ""}
-                                    open={
-                                        [
-                                            ROUTES.category,
-                                            ROUTES.import,
-                                        ].includes(routeName) && !isCollapse
-                                    }
-                                    icon={IoMedkit}
-                                    label="Import"
-                                >
-                                    <Sidebar.Item
-                                        active={
-                                            routeName === ROUTES.import_bill
-                                        }
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.import_bill}
-                                        icon={IoReader}
-                                    >
-                                        Invoices
-                                    </Sidebar.Item>
-                                    <Sidebar.Item
-                                        active={routeName === ROUTES.import}
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.import}
-                                        icon={IoCloudUpload}
-                                    >
-                                        Import goods
-                                    </Sidebar.Item>
-                                </Sidebar.Collapse>
-                                <Sidebar.Collapse
-                                    theme={sideBarTheme?.collapse}
-                                    href={isCollapse ? ROUTES.sale : ""}
-                                    open={
-                                        [
-                                            ROUTES.sale_invoice,
-                                            ROUTES.sale,
-                                        ].includes(routeName) && !isCollapse
-                                    }
-                                    icon={IoPrint}
-                                    label="Sale"
-                                >
-                                    <Sidebar.Item
-                                        active={
-                                            routeName === ROUTES.sale_invoice
-                                        }
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.sale_invoice}
-                                        icon={IoReceipt}
-                                    >
-                                        Invoices
-                                    </Sidebar.Item>
-                                    <Sidebar.Item
-                                        active={routeName === ROUTES.sale}
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.sale}
-                                        icon={IoQrCode}
-                                    >
-                                        Sale products
-                                    </Sidebar.Item>
-                                </Sidebar.Collapse>{" "}
-                                <Sidebar.Collapse
-                                    theme={sideBarTheme?.collapse}
-                                    href={isCollapse ? ROUTES.warranty : ""}
-                                    open={
-                                        [
-                                            ROUTES.warranty_invoice,
-                                            ROUTES.warranty,
-                                        ].includes(routeName) && !isCollapse
-                                    }
-                                    icon={RiToolsLine}
-                                    label="Warranty"
-                                >
-                                    <Sidebar.Item
-                                        active={
-                                            routeName ===
-                                            ROUTES.warranty_invoice
-                                        }
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.warranty_invoice}
-                                        icon={LiaFileInvoiceDollarSolid}
-                                    >
-                                        Invoices
-                                    </Sidebar.Item>
-                                     <Sidebar.Item
-                                        active={routeName === ROUTES.warranty}
-                                        theme={sideBarCollapsedItemTheme?.item}
-                                        href={ROUTES.warranty}
-                                        icon={RiToolsLine}
-                                    >
-                                        Warranty
-                                    </Sidebar.Item>
-                                </Sidebar.Collapse> */}
-                            </Sidebar.ItemGroup>
-                        </Sidebar.Items>
-                        <div className="absolute w-full left-0 bottom-5 bg-transparent">
-                            {isCollapse ? (
-                                <Avatar
-                                    className="p-2 flex rounded-lg hover:bg-background-hover cursor-pointer "
-                                    rounded
-                                    onClick={() => setIsCollapse(false)}
-                                ></Avatar>
-                            ) : (
-                                <div className="mx-4">
-                                    <Dropdown
-                                        theme={dropdownTheme}
-                                        label={
-                                            <Avatar
-                                                className=" w-full p-2 flex justify-start rounded-lg hover:bg-background-hover cursor-pointer "
-                                                rounded
-                                            >
-                                                <div className="">
-                                                    <p className=" font-semibold text-start text-secondary-950 text-sm">
-                                                        User
-                                                    </p>
-                                                    <p className=" font-normal text-start text-secondary-600 text-sm">
-                                                        {ALL_ROLES[role]}
-                                                    </p>
-                                                </div>
-                                            </Avatar>
-                                        }
-                                        arrowIcon={false}
-                                        inline
-                                    >
-                                        <Dropdown.Header
-                                            theme={dropdownTheme?.floating}
-                                        >
-                                            <p className=" font-semibold text-start text-secondary-950 text-sm">
-                                                User
-                                            </p>
-                                            {/* <p className=" font-normal text-start text-secondary-600 text-sm">
-                                                {staffInfo.email}
-                                            </p> */}
-                                        </Dropdown.Header>
-                                        <Dropdown.Item
-                                            theme={
-                                                dropdownTheme?.floating?.item
-                                            }
-                                            href="/home"
-                                        >
-                                            Dashboard
-                                        </Dropdown.Item>
-                                        <Dropdown.Item href="/setting">
-                                            Settings
-                                        </Dropdown.Item>
-                                        <Dropdown.Divider
-                                            theme={dropdownTheme?.floating}
-                                        />
-                                        <Dropdown.Item
-                                            onClick={() => {
-                                                localStorage.setItem(
-                                                    "token",
-                                                    "",
-                                                );
-                                                deleteCookie(
-                                                    COOKIE_NAME.ACCESS_TOKEN,
-                                                );
-                                                router.push("/signin");
-                                            }}
-                                        >
-                                            Sign out
-                                        </Dropdown.Item>
-                                    </Dropdown>
-                                </div>
-                            )}
-                        </div>
-                    </Sidebar>
-                </Transition.Child>
-            </Transition>
-            {!isMobile ? (
-                <>
-                    {/* <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsCollapse((prev) => !prev);
-                        }}
-                        className={` z-20 absolute rounded-full border-secondary-300 border-2 p-1 top-16 right-0 translate-x-1/2 bg-background-normal hover:bg-background-hover active:bg-background-active`}
-                    >
-                        <HiChevronLeft
-                            className={` z-10 text-secondary-300 w-5 h-5 ${
-                                isCollapse ? " rotate-180" : ""
-                            }`}
-                        />
-                    </button> */}
-                </>
-            ) : null}
-        </div>
-        // </div>
+        <Navbar fluid rounded>
+            <Navbar.Brand href={`/${role}`}>
+                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+                    Phuc khao
+                </span>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+            <Navbar.Collapse>
+                <Navbar.Link href={`/${role}`} active>
+                    Home
+                </Navbar.Link>
+                <Navbar.Link href="/setting">Setting</Navbar.Link>
+            </Navbar.Collapse>
+        </Navbar>
     );
 }
 

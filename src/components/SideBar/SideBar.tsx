@@ -15,11 +15,7 @@ export default function SideBar({ staffInfo }: PropTypes) {
         redirect(withQuery("/signin", {}));
     }
 
-    return (
-        <div className=" absolute top-0 left-0 h-screen md:relative md:w-max z-50">
-            <SideBarUI role={role} staffInfo={staffInfo} isCollapse={false} />
-        </div>
-    );
+    return <SideBarUI role={role} staffInfo={staffInfo} isCollapse={false} />;
 }
 
 type PropTypes = {
