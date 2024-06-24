@@ -1,10 +1,9 @@
-const BASE_API = "http://localhost:8080";
-// const BASE_API = "https://esms.hoanghy.space";
+const BASE_API = "http://localhost:3000";
 
 const API = {
     baseUrl: BASE_API,
     authentication: {
-        signIn: `${BASE_API}/auth/authenticate`,
+        signIn: `${BASE_API}/auth`,
     },
     staff: {
         getStaffProfile: `${BASE_API}/staff/profile`,

@@ -41,22 +41,25 @@ export default function SignIn({ role: defaultRole }: Props) {
     } = useForm<FormValues>();
 
     const onSubmit = async (data: FormValues) => {
-        const email = data.username;
+        const username = data.username;
         const password = data.password;
 
         setIsLoading(true);
-        const res = await publicFetcher(API.authentication.signIn, "POST", {
-            email,
-            password,
-        });
+        const res = await publicFetcher(
+            `${API.authentication.signIn}/${role}/login`,
+            "POST",
+            {
+                username,
+                password,
+            },
+        );
 
-        if (res.status === 200) {
+        if (res.status === 201) {
             const token = await res.json();
             setCookie("accessToken", token.access_token);
-            setCookie("refreshToken", token.refresh_token);
             router.push(
                 decodeURI(
-                    searchParams.get(SEARCH_PARAMS.redirectUri) || "/product",
+                    searchParams.get(SEARCH_PARAMS.redirectUri) || `/${role}`,
                 ),
             );
         } else {

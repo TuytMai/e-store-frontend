@@ -1,7 +1,7 @@
 export const ROLE_KEYS = [
     "student",
     "lecturer",
-    "trainingDepartment",
+    "training-department",
     "administrator",
 ] as const;
 
@@ -11,6 +11,6 @@ export type UserRole = RoleType[number];
 export const ALL_ROLES: Record<UserRole, string> = {
     student: "Sinh viên",
     lecturer: "Giảng viên",
-    trainingDepartment: "Phòng đào tạo",
+    "training-department": "Phòng đào tạo",
     administrator: "Ban giám hiệu",
 } as const;
