@@ -150,7 +150,7 @@ export default function SignIn({ role: defaultRole }: Props) {
                                 className=" mt-8 w-full"
                                 isLoading={isLoading}
                             >
-                                <p className=" mr-2">Go to Store</p>{" "}
+                                <p className=" mr-2">Đăng nhập</p>
                                 <HiArrowRight />
                             </Button>
                         </form>
