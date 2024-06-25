@@ -1,7 +1,8 @@
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { Modal } from "flowbite-react";
-import { IoArrowUndoOutline, IoMegaphoneOutline } from "react-icons/io5";
+import { IoArrowUndoOutline } from "react-icons/io5";
 import Button from "../Button/Button";
+import ComplainForm from "../ComplainForm/ComplainForm";
 import DetailReviewFormStatus from "../DetailReviewFormStatus/DetailReviewFormStatus";
 import LabeledText from "../Typography/LabeledText";
 
@@ -114,17 +115,9 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                     </div>
                     <DetailReviewFormStatus form={form} />
                     <div className=" w-full grid grid-cols-5 gap-4">
-                        <Button className=" col-span-2 bg-red-100 hover:bg-red-200">
-                            <div className=" flex items-center gap-2">
-                                <IoMegaphoneOutline
-                                    size={22}
-                                    className=" text-red-800"
-                                />
-                                <p className=" font-semibold text-red-800">
-                                    Khiếu nại
-                                </p>
-                            </div>
-                        </Button>
+                        <div className=" col-span-2 ">
+                            <ComplainForm form={form} />
+                        </div>
                         <Button
                             onClick={onClose}
                             className=" col-span-3 bg-gray-50 hover:bg-gray-100"

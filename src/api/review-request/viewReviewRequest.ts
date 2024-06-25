@@ -1,5 +1,6 @@
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import apiInstance from "../apiInstance";
+import { ComplaintFormEntity } from "@/types/ComplainFormEntity";
 
 export default async function viewReviewRequestList({
     queryKey,
