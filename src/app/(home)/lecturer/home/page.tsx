@@ -5,6 +5,7 @@ import { viewLecturerReviewRequestList } from "@/api/review-request/viewReviewRe
 import DataTable from "@/components/DataTable/DataTable";
 import ReviewFormStatus from "@/components/ReviewFormStatus/ReviewFormStatus";
 import TrainingDepartmentReviewForm from "@/components/TrainingDepartmentReviewForm/TrainingDepartmentReviewForm";
+import UpdateScoreReviewResult from "@/components/UpdateScoreReviewResult/UpdateScoreReviewResult";
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -41,20 +42,17 @@ export default function Page() {
                     data={reviewBoards || []}
                     isEdit={false}
                     isLoading={isReviewBoardsLoading}
-                    onClickRow={(form) => {
-                        setIsOpenreviewDetail(true);
-                        // setReviewForm(form);
-                    }}
                     pick={{
                         ten: {
                             title: "Tên hội đồng",
-                            className: "font-semibold",
+                            className: " w-[300px] font-semibold",
                         },
                         lecturers: {
                             title: "Danh sách giảng viên",
+                            className: " w-[700px]",
                             mapper: (lecturers) => (
                                 <div className=" flex gap-2">
-                                    {lecturers.slice(0, 4).map((lecturer) => (
+                                    {lecturers.slice(0, 3).map((lecturer) => (
                                         <p
                                             key={lecturer.id}
                                             className=" px-2 py-1 rounded-lg bg-gray-200 font-medium"
@@ -62,7 +60,13 @@ export default function Page() {
                                             {lecturer.hoTen}
                                         </p>
                                     ))}
-                                    {lecturers.length > 4 ? "" : null}
+                                    {lecturers.length > 3 ? (
+                                        <p className=" px-2 py-1 rounded-lg bg-gray-200 font-medium">
+                                            {` và ${
+                                                lecturers.length - 3
+                                            } giảng viên`}
+                                        </p>
+                                    ) : null}
                                 </div>
                             ),
                         },
@@ -84,6 +88,7 @@ export default function Page() {
                     isLoading={isLecturerTestScoreReviewLoading}
                     onClickRow={(form) => {
                         setIsOpenreviewDetail(true);
+                        setReviewForm(form);
                     }}
                     pick={{
                         testScore: {
@@ -110,12 +115,12 @@ export default function Page() {
                 />
             </div>
             {reviewForm ? (
-                <TrainingDepartmentReviewForm
+                <UpdateScoreReviewResult
                     isOpen={isOpenReviewDetail}
                     form={reviewForm}
                     onClose={() => {
                         setIsOpenreviewDetail(false);
-                        // refetchTestScoreReviews();
+                        refetchLecturerTestScoreReviews();
                     }}
                 />
             ) : null}

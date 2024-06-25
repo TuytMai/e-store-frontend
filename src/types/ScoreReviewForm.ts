@@ -1,3 +1,4 @@
+import { ReviewResultEntity } from "./ReviewResult";
 import { StudentEntity } from "./StudentEntity";
 import { TestScoreEntity } from "./TestScoreEntity";
 
@@ -22,6 +23,7 @@ export type ScoreReviewForm = {
     nguoiPhucKhao: string;
     student: StudentEntity;
     testScore: TestScoreEntity;
+    reviewResult: ReviewResultEntity;
 };
 
 export type EReviewStatus = "DA_GUI" | "TU_CHOI" | "DANG_XU_LI" | "DA_XU_LI";
