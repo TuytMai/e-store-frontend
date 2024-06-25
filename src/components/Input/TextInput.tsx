@@ -26,6 +26,7 @@ export default React.forwardRef(function TextInput(
         onRightAddonClick,
         rightAddonClassName,
         readOnly,
+        required,
         value,
         ...props
     }: PropTypes,
@@ -83,7 +84,7 @@ export default React.forwardRef(function TextInput(
                     </p>
                     <p className=" text-base font-medium flex gap-1 items-center">
                         {value}
-                    </p>    
+                    </p>
                 </div>
             ) : (
                 <>
@@ -109,7 +110,7 @@ export default React.forwardRef(function TextInput(
                             addon={addon}
                             value={value}
                             {...props}
-                            required
+                            required={required}
                             autoComplete="off"
                         />
                         <div

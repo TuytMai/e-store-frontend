@@ -1,31 +1,53 @@
 import findLecturers from "@/api/lecturer/find";
-import addNewReviewBoard from "@/api/review-board/addNew";
+import updateReviewBoard from "@/api/review-board/update";
 import useLoading from "@/hooks/useLoading";
 import { LecturerEntity } from "@/types/entity/Lecturer";
 import { NewReviewBoard } from "@/types/NewReviewBoard";
+import { ReviewBoardEntity } from "@/types/ReviewBoard";
+import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IoAddOutline, IoClose } from "react-icons/io5";
 import { useMutation } from "react-query";
+import { useDeepCompareEffect } from "react-use";
 import Button from "../Button/Button";
 import ControllerTextInput from "../ControllerInput/ControllerTextInput";
 import SearchInput from "../SearchInput/SearchInput.tsx";
+import SelectScoreReviewFormModal from "../SelectScoreReviewFormModal/SelectScoreReviewFormModal";
 
 type Props = {
+    reviewBoard: ReviewBoardEntity;
     onCreated?: () => any;
+    openModal: boolean;
+    onClose: () => any;
 };
 
-export default function CreateReviewBoard({ onCreated }: Props) {
-    const [openModal, setOpenModal] = useState(false);
+export default function UpdateReviewBoard({
+    reviewBoard,
+    onCreated,
+    onClose,
+    openModal,
+}: Props) {
     const { openLoading, closeLoading } = useLoading();
 
     const [lecturers, setLecturers] = useState<LecturerEntity[]>([]);
+    const [scoreReviews, setScoreReviews] = useState<ScoreReviewForm[]>([]);
+    const [isOpenSelectScoreReview, setIsOpenSelectScoreReview] =
+        useState(false);
 
     const { mutate: addNewForm } = useMutation({
-        mutationFn: addNewReviewBoard,
+        mutationFn: updateReviewBoard,
     });
+
+    useDeepCompareEffect(() => {
+        setLecturers(reviewBoard.lecturers);
+        setScoreReviews(
+            reviewBoard?.reviewResults?.map((d) => d.testScoreReviewForm) || [],
+        );
+        setValue("ten", reviewBoard.ten);
+    }, [reviewBoard]);
 
     const {
         register,
@@ -40,8 +62,10 @@ export default function CreateReviewBoard({ onCreated }: Props) {
 
     const onSubmit = async (data: NewReviewBoard) => {
         const newForm = {
+            ...reviewBoard,
             ...data,
             lecturerIds: lecturers.map(({ id }) => id),
+            scoreReviewIds: scoreReviews.map((s) => s.id),
         };
         openLoading("Đang tạo hội đồng phúc khảo...");
         addNewForm(newForm, {
@@ -50,35 +74,22 @@ export default function CreateReviewBoard({ onCreated }: Props) {
             },
             onSuccess: () => {
                 toast.success("Tạo hội đồng phúc khảo thành công");
-                setOpenModal(false);
+                onClose();
                 onCreated?.();
             },
         });
     };
 
     return (
-        <div>
-            <Button
-                onClick={() => {
-                    setOpenModal(true);
-                    reset({});
-                }}
-            >
-                <div className=" flex items-center gap-2">
-                    <IoAddOutline size={24} />
-                    Tạo hội đồng phúc khảo mới
-                </div>
-            </Button>
+        <>
             <Modal
-                dismissible
-                size={"xl"}
+                dismissible={false}
+                size={"2xl"}
                 show={openModal}
-                onClose={() => setOpenModal(false)}
+                onClose={onClose}
             >
                 <Modal.Header>
-                    <p className=" font-bold">
-                        Nhập thông tin của hội đồng phúc khảo
-                    </p>
+                    <p className=" font-bold">Chỉnh sửa thông tin hội đồng</p>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -126,12 +137,12 @@ export default function CreateReviewBoard({ onCreated }: Props) {
                                         )}
                                         className=""
                                     />
-                                    <div className=" px-2 flex flex-col gap-2">
+                                    <div className=" flex flex-col gap-2">
                                         {lecturers.map(
                                             ({ id, hoTen, username }) => (
                                                 <div
                                                     key={id}
-                                                    className=" my-1 flex justify-between items-center"
+                                                    className=" px-3 py-2 rounded-lg bg-primary-100 my-1 flex justify-between items-center"
                                                 >
                                                     <div>
                                                         <p className=" font-semibold">
@@ -142,6 +153,7 @@ export default function CreateReviewBoard({ onCreated }: Props) {
                                                         </p>
                                                     </div>
                                                     <Button
+                                                        className=" hover:bg-primary-500 group"
                                                         onClick={() =>
                                                             setLecturers(
                                                                 (prev) => [
@@ -155,11 +167,79 @@ export default function CreateReviewBoard({ onCreated }: Props) {
                                                                 ],
                                                             )
                                                         }
+                                                        fill={false}
                                                         btnType={"secondary"}
+                                                        size={"xs"}
                                                     >
                                                         <IoClose
-                                                            className=" text-gray-400"
-                                                            size={24}
+                                                            className=" text-secondary-600 group-hover:text-secondary-100"
+                                                            size={22}
+                                                        />
+                                                    </Button>
+                                                </div>
+                                            ),
+                                        )}
+                                    </div>
+                                </div>
+                                <div className=" flex-1 flex flex-col gap-2">
+                                    <p className=" font-semibold text-sm flex gap-1 items-center">
+                                        Chọn danh sách đơn phúc khảo
+                                    </p>
+                                    <Button
+                                        onClick={() =>
+                                            setIsOpenSelectScoreReview(true)
+                                        }
+                                        className=" mt-2 bg-primary-50 hover:bg-primary-100"
+                                        size={"sm"}
+                                        fill={false}
+                                    >
+                                        <div className=" flex gap-2 items-center">
+                                            <IoAddOutline size={24} />
+                                            <p> Thêm đơn phúc khảo</p>
+                                        </div>
+                                    </Button>
+                                    <div className=" flex flex-col gap-2">
+                                        {scoreReviews.map(
+                                            ({
+                                                id,
+                                                student,
+                                                testScore,
+                                                ngayDangKy,
+                                            }) => (
+                                                <div
+                                                    key={id}
+                                                    className=" px-3 py-2 rounded-lg bg-primary-100 my-1 flex justify-between items-center"
+                                                >
+                                                    <div>
+                                                        <p className=" font-semibold">
+                                                            {student?.hoTen}
+                                                        </p>
+                                                        <p className=" text-gray-600 text-sm">
+                                                            {testScore?.tenMon}
+                                                        </p>
+                                                    </div>
+                                                    <Button
+                                                        className=" hover:bg-primary-500 group"
+                                                        onClick={() =>
+                                                            setScoreReviews(
+                                                                (prev) => [
+                                                                    ...prev.filter(
+                                                                        (
+                                                                            value,
+                                                                        ) =>
+                                                                            value.id !==
+                                                                            id,
+                                                                    ),
+                                                                ],
+                                                            )
+                                                        }
+                                                        fill={false}
+                                                        btnType={"secondary"}
+                                                        size={"xs"}
+                                                    >
+                                                        <IoClose
+                                                            className=" text-secondary-600 group-hover:text-secondary-100"
+                                                            size={22}
                                                         />
                                                     </Button>
                                                 </div>
@@ -170,18 +250,27 @@ export default function CreateReviewBoard({ onCreated }: Props) {
                             </div>
                         </div>
                         <div className=" mt-8 flex gap-4">
-                            <Button type="submit">Tạo hội đồng</Button>
-                            <Button
-                                btnType="secondary"
-                                onClick={() => setOpenModal(false)}
-                            >
+                            <Button type="submit">Cập nhật hội đồng</Button>
+                            <Button btnType="secondary" onClick={onClose}>
                                 Hủy
                             </Button>
                         </div>
                     </form>
                 </Modal.Body>
-                {/* <Modal.Footer></Modal.Footer> */}
             </Modal>
-        </div>
+            {isOpenSelectScoreReview ? (
+                <SelectScoreReviewFormModal
+                    defaultSelected={scoreReviews}
+                    openModal={isOpenSelectScoreReview}
+                    onClose={(newScoreReviews) => {
+                        setScoreReviews((prev) => [
+                            ...prev,
+                            ...newScoreReviews,
+                        ]);
+                        setIsOpenSelectScoreReview(false);
+                    }}
+                />
+            ) : null}
+        </>
     );
 }

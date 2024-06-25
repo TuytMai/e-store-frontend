@@ -44,6 +44,7 @@ export default function SearchInput<T>({
                 }
                 onRightIconClick={() => setSearchText("")}
                 placeholder={placeholder}
+                required={false}
                 sizing="md"
             />
             {isOpen ? (
