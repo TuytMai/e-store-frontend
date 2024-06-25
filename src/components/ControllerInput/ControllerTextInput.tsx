@@ -19,7 +19,7 @@ export default function ControllerTextInput({
     ...props
 }: PropTypes) {
     return (
-        <div className={` py-[10px] ${className}`} {...props}>
+        <div className={` py-[0px] ${className}`} {...props}>
             <Controller
                 control={control}
                 name={name}

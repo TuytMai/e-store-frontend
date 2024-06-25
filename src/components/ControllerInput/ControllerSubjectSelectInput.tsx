@@ -2,16 +2,17 @@ import { ReactNodeChildren } from "@/types/ReactNodeChildren";
 import BaseEntity from "@/types/entity/BaseEntity";
 import {
     CustomFlowbiteTheme,
-    Dropdown,
     Label,
+    Dropdown,
     DropdownItem,
 } from "flowbite-react";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import FONT from "../../utils/fontFamily";
+import { TestScoreEntity } from "@/types/TestScoreEntity";
 
-export default function ControllerSelectInput<
-    T extends BaseEntity & { name: string },
+export default function ControllerSubjectSelectInput<
+    T extends TestScoreEntity,
 >({
     control,
     name,
@@ -27,7 +28,7 @@ export default function ControllerSelectInput<
     const [selected, setSelected] = useState<string>(defaultValue || "");
 
     return (
-        <div className={` py-[10px] ${className}`} {...props}>
+        <div className={` py-[0px] ${className}`} {...props}>
             <Label
                 htmlFor={name}
                 className="mb-2 block font-semibold text-secondary-900 "
@@ -38,7 +39,6 @@ export default function ControllerSelectInput<
                 name={name}
                 render={({ field: { value, onChange, ...field } }) => (
                     <Dropdown
-                        id={name}
                         theme={dropdownTheme}
                         label={
                             selected || (
@@ -49,25 +49,21 @@ export default function ControllerSelectInput<
                         }
                         dismissOnClick={true}
                     >
-                        <DropdownItem
-                            onClick={() => {
-                                onValueChange("");
-                                setSelected("");
-                            }}
-                        >
-                            <p className=" font-normal text-secondary-600">
-                                Not choose
-                            </p>
-                        </DropdownItem>
                         {items?.map((value) => (
                             <DropdownItem
+                                id={name}
                                 key={value.id}
                                 onClick={() => {
                                     onValueChange(value?.id);
-                                    setSelected(value?.name);
+                                    setSelected(value?.maMon);
                                 }}
                             >
-                                {value.name}
+                                <div className=" flex flex-col items-start">
+                                    <p className=" font-semibold">
+                                        {value.maMon}
+                                    </p>
+                                    <p className="">{value.tenMon}</p>
+                                </div>
                             </DropdownItem>
                         ))}
                     </Dropdown>
@@ -90,7 +86,7 @@ const dropdownTheme: CustomFlowbiteTheme["dropdown"] = {
             },
             placement: "-4px",
         },
-        base: "z-10 w-fit bg-background-secondary rounded divide-y divide-secondary-100 shadow focus:outline-none",
+        base: "z-10 w-fit max-h-[300px] overflow-auto bg-background-secondary rounded divide-y divide-secondary-100 shadow focus:outline-none",
         content: "py-1 text-sm text-secondary-700  bg-background-secondary",
         divider: "my-1 h-px bg-secondary-100 ",
         header: "block py-2 px-4 text-sm text-secondary-700",

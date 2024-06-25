@@ -25,7 +25,6 @@ export default function SideBarUI({
     const routeName = (pathname.split("/").slice(1, 3).join("/") || "") + "/";
     const screen = useScreen();
     const isMobile = !screen("md");
-    console.log({ routeName });
 
     const { theme } = useTheme();
 
@@ -47,7 +46,7 @@ export default function SideBarUI({
         <Navbar fluid rounded>
             <Navbar.Brand href={`/${role}`}>
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-                    Phuc khao
+                    UIT Phuc Khao
                 </span>
             </Navbar.Brand>
             <div className="">

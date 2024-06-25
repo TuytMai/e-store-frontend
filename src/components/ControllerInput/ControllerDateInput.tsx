@@ -1,13 +1,11 @@
 import { ReactNodeChildren } from "@/types/ReactNodeChildren";
+import { Datepicker, Label } from "flowbite-react";
 import React from "react";
 import { Controller } from "react-hook-form";
-import TextInput from "../Input/TextInput";
-import { Textarea } from "flowbite-react";
 
-export default function ControllerTextarea({
+export default function ControllerDateInput({
     control,
     type = "text",
-    id,
     name,
     title,
     rules,
@@ -18,29 +16,23 @@ export default function ControllerTextarea({
     defaultValue,
     error,
     className,
-    rows,
     ...props
 }: PropTypes) {
     return (
         <div className={` py-[0px] ${className}`} {...props}>
+            <Label
+                htmlFor={name}
+                className="mb-2 block font-semibold text-secondary-900 "
+                value={title}
+            />
             <Controller
                 control={control}
                 name={name}
                 rules={rules}
                 render={({ field: { value, onChange, ...field } }) => (
-                    <Textarea
-                        id={id}
-                        type={type}
-                        className=" bg-background-secondary text-secondary-900"
-                        title={
-                            <p className=" text-secondary-900 font-medium">
-                                {title}
-                            </p>
-                        }
-                        icon={icon}
-                        rows={rows}
-                        defaultValue={defaultValue}
-                        placeholder={placeholder}
+                    <Datepicker
+                        id={name}
+                        className=" text-secondary-900"
                         {...register(name)}
                         onChange={(d: any) => {
                             onChange(d);
@@ -69,6 +61,5 @@ type PropTypes = {
     onValueChange: any;
     register: any;
     error: any;
-    rows: number;
 } & React.ComponentPropsWithoutRef<"div"> &
     ReactNodeChildren;

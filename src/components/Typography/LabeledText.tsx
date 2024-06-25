@@ -1,4 +1,6 @@
+import FONT from "@/utils/fontFamily";
 import { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
 export default function LabeledText({ title, value, icon }: PropTypes) {
     return (
@@ -7,7 +9,12 @@ export default function LabeledText({ title, value, icon }: PropTypes) {
                 {title}
             </p>
             {value ? (
-                <p className=" text-secondary-950 text-base font-medium flex gap-2 items-center">
+                <p
+                    className={twMerge(
+                        " text-secondary-950 text-base font-medium flex gap-2 items-center",
+                        FONT.primary.className,
+                    )}
+                >
                     {icon}
                     {value}
                 </p>

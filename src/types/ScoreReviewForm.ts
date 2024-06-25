@@ -1,6 +1,14 @@
 import { StudentEntity } from "./StudentEntity";
 import { TestScoreEntity } from "./TestScoreEntity";
 
+export type NewScoreReviewForm = {
+    maMon: string;
+    lyDo: string;
+    ngayThi: Date;
+    phongThi: string;
+    caThi: string;
+};
+
 export type ScoreReviewForm = {
     id: string;
     maLop: string;

@@ -59,7 +59,7 @@ const getTheme = (isFill: boolean): CustomFlowbiteTheme["button"] => {
             base: " flex flex-row items-stretch items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none",
             color: {
                 primary:
-                    "bg-primary-300 hover:bg-primary-400 focus:ring-primary-100 text-white",
+                    "bg-primary-400 hover:bg-primary-500 focus:ring-primary-100 text-white",
                 secondary:
                     "bg-background-normal hover:bg-secondary-50 focus:ring-secondary-100 text-secondary-900",
                 error: "bg-color-error hover:bg-red-600 focus:ring-red-100 text-white",
