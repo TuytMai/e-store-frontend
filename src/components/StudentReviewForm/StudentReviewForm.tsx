@@ -1,0 +1,144 @@
+import { ScoreReviewForm } from "@/types/ScoreReviewForm";
+import { Modal } from "flowbite-react";
+import { IoMegaphoneOutline } from "react-icons/io5";
+import Button from "../Button/Button";
+import LabeledText from "../Typography/LabeledText";
+
+type Props = {
+    isOpen: boolean;
+    form: ScoreReviewForm;
+    onClose: () => any;
+};
+
+export default function StudentReviewForm({
+    isOpen,
+    form: {
+        id,
+        ngayDangKy,
+        student,
+        testScore,
+        ngayThi,
+        caThi,
+        phongThi,
+        lyDo,
+        tinhTrang,
+    },
+    onClose,
+}: Props) {
+    return (
+        <Modal show={isOpen} onClose={onClose} dismissible size={"xl"}>
+            <Modal.Body>
+                <div className=" flex flex-col items-center gap-9">
+                    <div className=" w-full flex flex-row justify-between">
+                        <p className=" text-sm text-gray-500">
+                            Id: <span className=" font-semibold">{id}</span>
+                        </p>
+                        <p className=" text-sm text-gray-500">
+                            Ngày tạo:{" "}
+                            <span className=" font-semibold">
+                                {new Intl.DateTimeFormat("vi-VN", {
+                                    dateStyle: "medium",
+                                    timeZone: "Asia/Ho_Chi_Minh",
+                                }).format(new Date(ngayDangKy))}
+                            </span>
+                        </p>
+                    </div>
+                    <p className=" text-3xl font-semibold">
+                        Thông tin đơn phúc khảo
+                    </p>
+                    <div className=" w-full justify-between">
+                        <p className=" font-semibold text-center text-gray-500">
+                            Thông tin sinh viên
+                        </p>
+                        <div className=" mt-4 w-full grid grid-cols-5 gap-4">
+                            <LabeledText
+                                className=" col-span-3"
+                                title="Họ và tên"
+                                value={student.hoTen}
+                            />
+                            <LabeledText
+                                className=" col-span-2"
+                                title="Mã số sinh viên"
+                                value={student.mssv}
+                            />
+                            <LabeledText
+                                title="Lớp sinh hoạt"
+                                value={student.lopSinhHoat}
+                            />
+                        </div>
+                    </div>
+                    <div className=" w-full justify-between">
+                        <p className=" font-semibold text-center text-gray-500">
+                            Thông tin môn học cần phúc khảo
+                        </p>
+                        <div className=" mt-4 w-full grid grid-cols-5 gap-4">
+                            <LabeledText
+                                className=" col-span-3"
+                                title="Môn phúc khảo"
+                                value={`${testScore.maMon} - ${testScore.tenMon}`}
+                            />
+                            <LabeledText
+                                className=" col-span-2"
+                                title="Lớp"
+                                value={testScore.lop}
+                            />
+                            <LabeledText
+                                title="Khoa quản lý"
+                                value={testScore.khoaQuanLy}
+                            />
+                        </div>
+                    </div>
+                    <div className=" w-full justify-between">
+                        <p className=" font-semibold text-center text-gray-500">
+                            Thông tin bài thi
+                        </p>
+                        <div className=" mt-4 w-full grid grid-cols-3 gap-4">
+                            <LabeledText
+                                title="Ngày thi"
+                                value={new Intl.DateTimeFormat("vi-VN", {
+                                    dateStyle: "medium",
+                                    timeZone: "Asia/Ho_Chi_Minh",
+                                }).format(new Date(ngayThi))}
+                            />
+                            <LabeledText title="Ca thi" value={caThi} />
+                            <LabeledText title="Phòng thi" value={phongThi} />
+                            <LabeledText
+                                title="Điểm hiện tại"
+                                value={testScore.diemHienTai}
+                            />
+                            <LabeledText
+                                className=" col-span-2"
+                                title="Lý do"
+                                value={lyDo}
+                            />
+                        </div>
+                    </div>
+                    <div className=" w-full grid grid-cols-5 gap-4">
+                        <Button className=" col-span-2 bg-red-100 hover:bg-red-200">
+                            <div className=" flex items-center gap-2">
+                                <IoMegaphoneOutline
+                                    size={22}
+                                    className=" text-red-800"
+                                />
+                                <p className=" font-semibold text-red-800">
+                                    Khiếu nại
+                                </p>
+                            </div>
+                        </Button>
+                        <Button className=" col-span-3 bg-gray-50 hover:bg-gray-100">
+                            <div className=" flex items-center gap-2">
+                                <IoMegaphoneOutline
+                                    size={22}
+                                    className=" text-gray-800"
+                                />
+                                <p className=" font-semibold text-gray-800">
+                                    Trở về
+                                </p>
+                            </div>
+                        </Button>
+                    </div>
+                </div>
+            </Modal.Body>
+        </Modal>
+    );
+}

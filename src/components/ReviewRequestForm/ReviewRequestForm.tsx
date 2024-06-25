@@ -18,7 +18,11 @@ import addNewTestScoreReviewForm from "@/api/review-request/addNewForm";
 import useLoading from "@/hooks/useLoading";
 import toast from "react-hot-toast";
 
-export default function ReviewRequestForm() {
+type Props = {
+    onCreated: () => any;
+};
+
+export default function ReviewRequestForm({ onCreated }: Props) {
     const [openModal, setOpenModal] = useState(false);
     const { openLoading, closeLoading } = useLoading();
 
@@ -57,6 +61,7 @@ export default function ReviewRequestForm() {
             onSuccess: () => {
                 toast.success("Tạo đơn phúc khảo thành công");
                 setOpenModal(false);
+                onCreated();
             },
         });
     };
