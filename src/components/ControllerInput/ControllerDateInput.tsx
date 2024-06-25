@@ -16,6 +16,7 @@ export default function ControllerDateInput({
     defaultValue,
     error,
     className,
+    value,
     ...props
 }: PropTypes) {
     return (
@@ -29,15 +30,20 @@ export default function ControllerDateInput({
                 control={control}
                 name={name}
                 rules={rules}
-                render={({ field: { value, onChange, ...field } }) => (
+                render={({ field: { onChange, ...field } }) => (
                     <Datepicker
                         id={name}
+                        value={new Intl.DateTimeFormat("vi-VN", {
+                            dateStyle: "medium",
+                            timeZone: "Asia/Ho_Chi_Minh",
+                        }).format(value)}
                         className=" text-secondary-900"
                         {...register(name)}
-                        onChange={(d: any) => {
+                        onSelectedDateChanged={(d: any) => {
                             onChange(d);
                             onValueChange(d);
                         }}
+                        language="vi-VN"
                         error={!!error}
                         name={name}
                     />
@@ -61,5 +67,6 @@ type PropTypes = {
     onValueChange: any;
     register: any;
     error: any;
+    value: Date;
 } & React.ComponentPropsWithoutRef<"div"> &
     ReactNodeChildren;
