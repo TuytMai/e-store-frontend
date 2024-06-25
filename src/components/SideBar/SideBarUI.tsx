@@ -5,7 +5,7 @@ import { CustomFlowbiteTheme } from "flowbite-react";
 import COOKIE_NAME from "@/constants/cookies";
 import useScreen from "@/hooks/useScreen";
 import Staff from "@/types/entity/Staff";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,6 +14,7 @@ import { UserRole } from "@/types/Role";
 import { Navbar } from "flowbite-react";
 import { useTheme } from "next-themes";
 import TextInput from "../Input/TextInput";
+import Button from "../Button/Button";
 
 export default function SideBarUI({
     staffInfo,
@@ -59,11 +60,20 @@ export default function SideBarUI({
                 </div>
                 <Navbar.Toggle />
             </div>
-            <Navbar.Collapse>
+            <Navbar.Collapse className=" items-center">
                 <Navbar.Link href={`/${role}`} active>
                     Home
                 </Navbar.Link>
                 <Navbar.Link href="/setting">Setting</Navbar.Link>
+                <Navbar.Link
+                    className=" cursor-pointer"
+                    onClick={() => {
+                        deleteCookie(COOKIE_NAME.ACCESS_TOKEN);
+                        router.push("/signin");
+                    }}
+                >
+                    Logout
+                </Navbar.Link>
             </Navbar.Collapse>
         </Navbar>
     );

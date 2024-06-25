@@ -1,7 +1,7 @@
 "use client";
 
 import viewComplainList from "@/api/complain/viewComplainList";
-import viewReviewRequestList from "@/api/review-request/viewReviewRequest";
+import viewStudentReviewRequestList from "@/api/review-request/viewReviewRequest";
 import DataTable from "@/components/DataTable/DataTable";
 import ReviewFormStatus from "@/components/ReviewFormStatus/ReviewFormStatus";
 import ReviewRequestForm from "@/components/ReviewRequestForm/ReviewRequestForm";
@@ -19,7 +19,7 @@ export default function Page() {
         refetch: refetchTestScoreReviews,
     } = useQuery({
         queryKey: ["test-score-review"],
-        queryFn: viewReviewRequestList,
+        queryFn: viewStudentReviewRequestList,
     });
 
     const {
