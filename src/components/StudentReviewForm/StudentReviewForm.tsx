@@ -1,7 +1,8 @@
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { Modal } from "flowbite-react";
-import { IoMegaphoneOutline } from "react-icons/io5";
+import { IoArrowUndoOutline, IoMegaphoneOutline } from "react-icons/io5";
 import Button from "../Button/Button";
+import DetailReviewFormStatus from "../DetailReviewFormStatus/DetailReviewFormStatus";
 import LabeledText from "../Typography/LabeledText";
 
 type Props = {
@@ -10,9 +11,8 @@ type Props = {
     onClose: () => any;
 };
 
-export default function StudentReviewForm({
-    isOpen,
-    form: {
+export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
+    const {
         id,
         ngayDangKy,
         student,
@@ -22,13 +22,12 @@ export default function StudentReviewForm({
         phongThi,
         lyDo,
         tinhTrang,
-    },
-    onClose,
-}: Props) {
+    } = form;
+
     return (
-        <Modal show={isOpen} onClose={onClose} dismissible size={"xl"}>
+        <Modal show={isOpen} onClose={onClose} dismissible size={"2xl"}>
             <Modal.Body>
-                <div className=" flex flex-col items-center gap-9">
+                <div className=" px-4 flex flex-col items-center gap-9">
                     <div className=" w-full flex flex-row justify-between">
                         <p className=" text-sm text-gray-500">
                             Id: <span className=" font-semibold">{id}</span>
@@ -46,7 +45,7 @@ export default function StudentReviewForm({
                     <p className=" text-3xl font-semibold">
                         Thông tin đơn phúc khảo
                     </p>
-                    <div className=" w-full justify-between">
+                    <div className=" w-full flex flex-col gap-2 justify-between">
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin sinh viên
                         </p>
@@ -67,7 +66,7 @@ export default function StudentReviewForm({
                             />
                         </div>
                     </div>
-                    <div className=" w-full justify-between">
+                    <div className=" w-full flex flex-col gap-2 justify-between">
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin môn học cần phúc khảo
                         </p>
@@ -88,7 +87,7 @@ export default function StudentReviewForm({
                             />
                         </div>
                     </div>
-                    <div className=" w-full justify-between">
+                    <div className=" w-full flex flex-col gap-2 justify-between">
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin bài thi
                         </p>
@@ -113,6 +112,7 @@ export default function StudentReviewForm({
                             />
                         </div>
                     </div>
+                    <DetailReviewFormStatus form={form} />
                     <div className=" w-full grid grid-cols-5 gap-4">
                         <Button className=" col-span-2 bg-red-100 hover:bg-red-200">
                             <div className=" flex items-center gap-2">
@@ -125,9 +125,12 @@ export default function StudentReviewForm({
                                 </p>
                             </div>
                         </Button>
-                        <Button className=" col-span-3 bg-gray-50 hover:bg-gray-100">
+                        <Button
+                            onClick={onClose}
+                            className=" col-span-3 bg-gray-50 hover:bg-gray-100"
+                        >
                             <div className=" flex items-center gap-2">
-                                <IoMegaphoneOutline
+                                <IoArrowUndoOutline
                                     size={22}
                                     className=" text-gray-800"
                                 />
