@@ -46,7 +46,6 @@ export default function RejectScoreReviewForm({ onClick, form }: Props) {
             <Button
                 onClick={() => {
                     setOpenModal(true);
-                    onClick?.();
                 }}
                 className=" bg-red-400 hover:bg-red-500 "
             >

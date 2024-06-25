@@ -126,6 +126,16 @@ export default function TrainingDepartmentReviewForm({
                                 value={lyDo}
                             />
                         </div>
+
+                        {tinhTrang === "TU_CHOI" ? (
+                            <div className=" py-3 px-4 bg-red-100 rounded-lg mt-4 w-full grid grid-cols-3 gap-4">
+                                <LabeledText
+                                    className=" col-span-3"
+                                    title="Lý do từ chối đơn"
+                                    value={form.lyDoTuChoi}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                     <div className=" w-full flex items-center justify-between gap-4">
                         <Button
@@ -144,7 +154,10 @@ export default function TrainingDepartmentReviewForm({
                         </Button>
                         {form.tinhTrang === "DA_GUI" ? (
                             <div className=" flex gap-4">
-                                <RejectScoreReviewForm form={form} />
+                                <RejectScoreReviewForm
+                                    form={form}
+                                    onClick={onClose}
+                                />
                                 <ApproveForm
                                     onClick={() => {
                                         mutate({ id, tinhTrang: "DANG_XU_LI" });

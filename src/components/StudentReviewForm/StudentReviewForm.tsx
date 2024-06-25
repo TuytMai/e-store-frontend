@@ -113,7 +113,15 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                             />
                         </div>
                     </div>
-                    <DetailReviewFormStatus status={form.tinhTrang} />
+                    <DetailReviewFormStatus
+                        status={form.tinhTrang}
+                        result={form.reviewResult}
+                        reason={
+                            form.tinhTrang === "TU_CHOI"
+                                ? form.lyDoTuChoi
+                                : form.reviewResult?.giaiTrinh
+                        }
+                    />
                     <div className=" w-full grid grid-cols-5 gap-4">
                         <div className=" col-span-2 ">
                             <ComplainForm form={form} />

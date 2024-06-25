@@ -191,6 +191,8 @@ export default function Page() {
                     onClose={() => {
                         setIsOpenreviewDetail(false);
                         refetchTestScoreReviews();
+                        refetchResolvedTestScoreReviews();
+                        refetchResolvingTestScoreReviews();
                     }}
                 />
             ) : null}

@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function StudentComplainForm({ isOpen, form, onClose }: Props) {
-    const { id, ngayDangKy, student, lyDo, tinhTrang } = form;
+    const { id, ngayDangKy, lyDoTuChoi, student, lyDo, tinhTrang } = form;
 
     const [isOpenReviewDetail, setIsOpenreviewDetail] = useState(false);
 
@@ -52,7 +52,10 @@ export default function StudentComplainForm({ isOpen, form, onClose }: Props) {
                             value={form.lyDo}
                         />
                     </div>
-                    <DetailReviewFormStatus status={form.tinhTrang} />
+                    <DetailReviewFormStatus
+                        status={tinhTrang}
+                        reason={lyDoTuChoi}
+                    />
                 </div>
                 <StudentReviewForm
                     isOpen={isOpenReviewDetail}

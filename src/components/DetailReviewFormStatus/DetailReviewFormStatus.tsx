@@ -1,8 +1,11 @@
+import { ReviewResultEntity } from "@/types/ReviewResult";
 import { EReviewStatus } from "@/types/ScoreReviewForm";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
     status: EReviewStatus;
+    result?: ReviewResultEntity;
+    reason?: string;
 };
 
 const STYLES: Record<
@@ -31,7 +34,11 @@ const STYLES: Record<
     },
 };
 
-export default function DetailReviewFormStatus({ status }: Props) {
+export default function DetailReviewFormStatus({
+    status,
+    result,
+    reason,
+}: Props) {
     const { color, backgroundColor, text } = STYLES[status];
 
     return (
@@ -44,7 +51,23 @@ export default function DetailReviewFormStatus({ status }: Props) {
             <p className={twMerge(color, " font-medium ")}>Trạng thái</p>
             <div className=" flex flex-col gap-2">
                 <p className={twMerge(color, " font-bold ")}>{text}</p>
-                <p></p>
+                {status === "DA_XU_LI" ? (
+                    <p className={twMerge(color, " font-bold ")}>
+                        <span className=" font-medium">Điểm phúc khảo: </span>
+                        {` ${result?.diemPhucKhao}`}
+                    </p>
+                ) : null}
+                {status === "DA_XU_LI" ? (
+                    <p className={twMerge(color, " font-bold ")}>
+                        <span className=" font-medium">Giải trình: </span>
+                        {` ${result?.giaiTrinh}`}
+                    </p>
+                ) : null}
+                {status === "TU_CHOI" ? (
+                    <p className={twMerge(color, " font-bold ")}>
+                        {`${reason}`}
+                    </p>
+                ) : null}
             </div>
         </div>
     );
