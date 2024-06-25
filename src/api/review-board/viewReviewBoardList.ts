@@ -13,3 +13,20 @@ export async function viewReviewBoardList({ queryKey }: { queryKey: any }) {
         console.log({ error });
     }
 }
+
+export async function viewLecturerReviewBoardList({
+    queryKey,
+}: {
+    queryKey: any;
+}) {
+    try {
+        const [_key] = queryKey;
+        const response = await apiInstance.get("/review-board/lecturer");
+
+        const data = response.data as ReviewBoardEntity[];
+
+        return data;
+    } catch (error) {
+        console.log({ error });
+    }
+}

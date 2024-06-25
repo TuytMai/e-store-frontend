@@ -17,3 +17,20 @@ export default async function viewComplainList({
         console.log({ error });
     }
 }
+
+export async function viewUnresolvedComplainList({
+    queryKey,
+}: {
+    queryKey: any;
+}) {
+    try {
+        const [_key] = queryKey;
+        const response = await apiInstance.get("/complaint-form");
+
+        const data = response.data as ComplaintFormEntity[];
+
+        return data;
+    } catch (error) {
+        console.log({ error });
+    }
+}

@@ -1,5 +1,8 @@
 import updateReviewRequest from "@/api/review-request/update";
-import { NewComplaintForm } from "@/types/ComplainFormEntity";
+import {
+    ComplaintFormEntity,
+    NewComplaintForm,
+} from "@/types/ComplainFormEntity";
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { Modal } from "flowbite-react";
 import { useState } from "react";
@@ -8,19 +11,20 @@ import { IoArrowUndoOutline } from "react-icons/io5";
 import { useMutation } from "react-query";
 import Button from "../Button/Button";
 import ControllerTextarea from "../ControllerTextarea/ControllerTextarea";
+import updateComplain from "@/api/complain/update";
 
 type Props = {
-    form: ScoreReviewForm;
+    form: ComplaintFormEntity;
     onClick?: () => any;
 };
 
-export default function RejectScoreReviewForm({ onClick, form }: Props) {
+export default function RejectComplainForm({ onClick, form }: Props) {
     const [openModal, setOpenModal] = useState(false);
 
-    const { testScore, ngayThi, caThi, phongThi, id } = form;
+    const { id } = form;
 
     const { mutate } = useMutation({
-        mutationFn: updateReviewRequest,
+        mutationFn: updateComplain,
     });
 
     const {
@@ -61,7 +65,7 @@ export default function RejectScoreReviewForm({ onClick, form }: Props) {
                 <Modal.Body>
                     <div className=" w-full py-4 flex flex-col gap-9 items-center">
                         <p className=" text-2xl font-semibold">
-                            Từ chối đơn phúc khảo
+                            Từ chối đơn khiếu nại
                         </p>
                         <form className=" w-full">
                             <div className=" w-full flex flex-col gap-2">

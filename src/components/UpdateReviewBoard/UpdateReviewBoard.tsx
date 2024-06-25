@@ -67,13 +67,13 @@ export default function UpdateReviewBoard({
             lecturerIds: lecturers.map(({ id }) => id),
             scoreReviewIds: scoreReviews.map((s) => s.id),
         };
-        openLoading("Đang tạo hội đồng phúc khảo...");
+        openLoading("Đang cập nhật hội đồng phúc khảo...");
         addNewForm(newForm, {
             onSettled: () => {
                 closeLoading();
             },
             onSuccess: () => {
-                toast.success("Tạo hội đồng phúc khảo thành công");
+                toast.success("Cập nhật hội đồng phúc khảo thành công");
                 onClose();
                 onCreated?.();
             },

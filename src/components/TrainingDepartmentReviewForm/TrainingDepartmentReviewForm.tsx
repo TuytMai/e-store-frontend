@@ -6,7 +6,7 @@ import { useMutation } from "react-query";
 import ApproveForm from "../ApproveForm/ApproveForm";
 import Button from "../Button/Button";
 import DetailReviewFormStatus from "../DetailReviewFormStatus/DetailReviewFormStatus";
-import RejectForm from "../RejectForm/RejectForm";
+import RejectScoreReviewForm from "../RejectForm/RejectForm";
 import LabeledText from "../Typography/LabeledText";
 import ReviewRequestForm from "../ReviewRequestForm/ReviewRequestForm";
 import ReviewFormStatus from "../ReviewFormStatus/ReviewFormStatus";
@@ -144,7 +144,7 @@ export default function TrainingDepartmentReviewForm({
                         </Button>
                         {form.tinhTrang === "DA_GUI" ? (
                             <div className=" flex gap-4">
-                                <RejectForm form={form} />
+                                <RejectScoreReviewForm form={form} />
                                 <ApproveForm
                                     onClick={() => {
                                         mutate({ id, tinhTrang: "DANG_XU_LI" });

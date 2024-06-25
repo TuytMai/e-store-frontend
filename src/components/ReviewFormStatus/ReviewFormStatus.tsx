@@ -40,7 +40,7 @@ export default function ReviewFormStatus({ status }: Props) {
             className={twMerge(
                 color,
                 backgroundColor,
-                " w-fit font-semibold rounded-md px-2 py-1",
+                " w-fit text-sm font-semibold rounded-md px-2 py-1",
             )}
         >
             {text}

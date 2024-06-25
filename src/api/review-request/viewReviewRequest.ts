@@ -76,3 +76,22 @@ export async function viewResolvedReviewRequestList({
         console.log({ error });
     }
 }
+
+export async function viewLecturerReviewRequestList({
+    queryKey,
+}: {
+    queryKey: any;
+}) {
+    try {
+        const [_key] = queryKey;
+        const response = await apiInstance.get(
+            "/test-score-review-form/lecturer",
+        );
+
+        const data = response.data as ScoreReviewForm[];
+
+        return data;
+    } catch (error) {
+        console.log({ error });
+    }
+}

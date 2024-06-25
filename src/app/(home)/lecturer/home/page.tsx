@@ -1,56 +1,49 @@
 "use client";
 
-import { viewUnresolvedComplainList } from "@/api/complain/viewComplainList";
-import { viewReviewBoardList } from "@/api/review-board/viewReviewBoardList";
-import AdministratorComplainForm from "@/components/AdministratorComplainForm/AdministratorComplainForm";
-import CreateReviewBoard from "@/components/CreateReviewBoard/CreateReviewBoard";
+import { viewLecturerReviewBoardList } from "@/api/review-board/viewReviewBoardList";
+import { viewLecturerReviewRequestList } from "@/api/review-request/viewReviewRequest";
 import DataTable from "@/components/DataTable/DataTable";
 import ReviewFormStatus from "@/components/ReviewFormStatus/ReviewFormStatus";
-import UpdateReviewBoard from "@/components/UpdateReviewBoard/UpdateReviewBoard";
-import { ComplaintFormEntity } from "@/types/ComplainFormEntity";
-import { ReviewBoardEntity } from "@/types/ReviewBoard";
+import TrainingDepartmentReviewForm from "@/components/TrainingDepartmentReviewForm/TrainingDepartmentReviewForm";
+import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
 export default function Page() {
-    const [isOpenDetailModal, setIsOpenDetailModal] = useState(false);
-    const [reviewBoard, setReviewBoard] = useState<ReviewBoardEntity>();
-
-    const [isOpenComplainDetail, setIsOpenComplainDetail] = useState(false);
-    const [complainForm, setComplainForm] = useState<ComplaintFormEntity>();
-
     const {
         data: reviewBoards,
-        isLoading: isReviewBoardLoading,
-        refetch,
+        isLoading: isReviewBoardsLoading,
+        refetch: refetchReviewBoards,
     } = useQuery({
-        queryKey: ["review-boards"],
-        queryFn: viewReviewBoardList,
+        queryKey: ["lecturer-review-boards"],
+        queryFn: viewLecturerReviewBoardList,
     });
 
     const {
-        data: complains,
-        isLoading: isComplainLoading,
-        refetch: refetchComplain,
+        data: lecturerTestScoreReviews,
+        isLoading: isLecturerTestScoreReviewLoading,
+        refetch: refetchLecturerTestScoreReviews,
     } = useQuery({
-        queryKey: ["unresolved-complains"],
-        queryFn: viewUnresolvedComplainList,
+        queryKey: ["lecturer-test-score-review-resolving"],
+        queryFn: viewLecturerReviewRequestList,
     });
+
+    const [isOpenReviewDetail, setIsOpenreviewDetail] = useState(false);
+    const [reviewForm, setReviewForm] = useState<ScoreReviewForm>();
 
     return (
         <div className=" w-full flex flex-col gap-4">
-            <div className="">
-                <CreateReviewBoard onCreated={refetch} />
-            </div>
             <div className=" mt-8 flex flex-col gap-4">
-                <p className=" font-semibold">Danh sách hội đồng</p>
+                <p className=" font-semibold">
+                    Danh sách hội đồng phúc khảo của bạn
+                </p>
                 <DataTable
                     data={reviewBoards || []}
                     isEdit={false}
-                    isLoading={isReviewBoardLoading}
-                    onClickRow={(reviewBoard) => {
-                        setReviewBoard(reviewBoard);
-                        setIsOpenDetailModal(true);
+                    isLoading={isReviewBoardsLoading}
+                    onClickRow={(form) => {
+                        setIsOpenreviewDetail(true);
+                        // setReviewForm(form);
                     }}
                     pick={{
                         ten: {
@@ -81,21 +74,21 @@ export default function Page() {
                     }}
                 />
             </div>
-            <div className=" flex flex-col gap-4">
-                <p className=" font-semibold">Danh sách đơn khiếu nại</p>
+            <div className=" mt-8 flex flex-col gap-4">
+                <p className=" font-semibold">
+                    Danh sách đơn phúc khảo đang xử lý
+                </p>
                 <DataTable
-                    data={complains || []}
+                    data={lecturerTestScoreReviews || []}
                     isEdit={false}
-                    isLoading={isReviewBoardLoading}
-                    onClickRow={(complain) => {
-                        setIsOpenComplainDetail(true);
-                        setComplainForm(complain);
+                    isLoading={isLecturerTestScoreReviewLoading}
+                    onClickRow={(form) => {
+                        setIsOpenreviewDetail(true);
                     }}
                     pick={{
-                        reviewForm: {
+                        testScore: {
                             title: "Môn học",
-                            mapper: (value) => value?.testScore?.tenMon,
-                            className: " w-[400px] font-medium",
+                            mapper: (value) => value?.tenMon,
                         },
                         ngayDangKy: {
                             title: "Ngày nộp đơn",
@@ -116,19 +109,14 @@ export default function Page() {
                     }}
                 />
             </div>
-            {reviewBoard ? (
-                <UpdateReviewBoard
-                    reviewBoard={reviewBoard}
-                    openModal={isOpenDetailModal}
-                    onClose={() => setIsOpenDetailModal(false)}
-                    onCreated={refetch}
-                />
-            ) : null}
-            {complainForm ? (
-                <AdministratorComplainForm
-                    isOpen={isOpenComplainDetail}
-                    form={complainForm}
-                    onClose={() => setIsOpenComplainDetail(false)}
+            {reviewForm ? (
+                <TrainingDepartmentReviewForm
+                    isOpen={isOpenReviewDetail}
+                    form={reviewForm}
+                    onClose={() => {
+                        setIsOpenreviewDetail(false);
+                        // refetchTestScoreReviews();
+                    }}
                 />
             ) : null}
         </div>
