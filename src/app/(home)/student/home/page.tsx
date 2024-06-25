@@ -5,7 +5,9 @@ import viewReviewRequestList from "@/api/review-request/viewReviewRequest";
 import DataTable from "@/components/DataTable/DataTable";
 import ReviewFormStatus from "@/components/ReviewFormStatus/ReviewFormStatus";
 import ReviewRequestForm from "@/components/ReviewRequestForm/ReviewRequestForm";
+import StudentComplainForm from "@/components/StudentComplainForm/StudentComplainForm";
 import StudentReviewForm from "@/components/StudentReviewForm/StudentReviewForm";
+import { ComplaintFormEntity } from "@/types/ComplainFormEntity";
 import { ScoreReviewForm } from "@/types/ScoreReviewForm";
 import { useState } from "react";
 import { useQuery } from "react-query";
@@ -25,12 +27,15 @@ export default function Page() {
         isLoading: isComplainFormsLoading,
         refetch: refetchComplainForms,
     } = useQuery({
-        queryKey: ["complain-forms"],
+        queryKey: ["complain-form"],
         queryFn: viewComplainList,
     });
 
-    const [isOpenViewDetail, setIsOpenViewDetail] = useState(false);
-    const [form, setForm] = useState<ScoreReviewForm>();
+    const [isOpenReviewDetail, setIsOpenreviewDetail] = useState(false);
+    const [reviewForm, setReviewForm] = useState<ScoreReviewForm>();
+
+    const [isOpenComplainDetail, setIsOpenComplainDetail] = useState(false);
+    const [complainForm, setComplainForm] = useState<ComplaintFormEntity>();
 
     return (
         <div className=" w-full flex flex-col gap-4">
@@ -45,8 +50,8 @@ export default function Page() {
                     isLoading={isTestScoreReviewLoading}
                     entityType={"PRODUCT"}
                     onClickRow={(form) => {
-                        setIsOpenViewDetail(true);
-                        setForm(form);
+                        setIsOpenreviewDetail(true);
+                        setReviewForm(form);
                     }}
                     pick={{
                         testScore: {
@@ -78,6 +83,10 @@ export default function Page() {
                     data={complainForms || []}
                     isLoading={isComplainFormsLoading}
                     isEdit={false}
+                    onClickRow={(form) => {
+                        setIsOpenComplainDetail(true);
+                        setComplainForm(form);
+                    }}
                     pick={{
                         reviewForm: {
                             title: "Môn học",
@@ -102,11 +111,18 @@ export default function Page() {
                     }}
                 />
             </div>
-            {form ? (
+            {reviewForm ? (
                 <StudentReviewForm
-                    isOpen={isOpenViewDetail}
-                    form={form}
-                    onClose={() => setIsOpenViewDetail(false)}
+                    isOpen={isOpenReviewDetail}
+                    form={reviewForm}
+                    onClose={() => setIsOpenreviewDetail(false)}
+                />
+            ) : null}
+            {complainForm ? (
+                <StudentComplainForm
+                    isOpen={isOpenComplainDetail}
+                    form={complainForm}
+                    onClose={() => setIsOpenComplainDetail(false)}
                 />
             ) : null}
         </div>

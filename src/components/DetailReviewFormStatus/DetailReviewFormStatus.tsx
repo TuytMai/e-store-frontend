@@ -1,8 +1,8 @@
-import { EReviewStatus, ScoreReviewForm } from "@/types/ScoreReviewForm";
+import { EReviewStatus } from "@/types/ScoreReviewForm";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-    form: ScoreReviewForm;
+    status: EReviewStatus;
 };
 
 const STYLES: Record<
@@ -31,11 +31,16 @@ const STYLES: Record<
     },
 };
 
-export default function DetailReviewFormStatus({ form }: Props) {
-    const { color, backgroundColor, text } = STYLES[form.tinhTrang];
+export default function DetailReviewFormStatus({ status }: Props) {
+    const { color, backgroundColor, text } = STYLES[status];
 
     return (
-        <div className={twMerge(backgroundColor, " px-5 py-4 rounded-2xl w-full flex flex-col gap-3")}>
+        <div
+            className={twMerge(
+                backgroundColor,
+                " px-5 py-4 rounded-2xl w-full flex flex-col gap-3",
+            )}
+        >
             <p className={twMerge(color, " font-medium ")}>Trạng thái</p>
             <div className=" flex flex-col gap-2">
                 <p className={twMerge(color, " font-bold ")}>{text}</p>

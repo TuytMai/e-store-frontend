@@ -50,7 +50,7 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin sinh viên
                         </p>
-                        <div className=" mt-4 w-full grid grid-cols-5 gap-4">
+                        <div className=" py-3 px-4 bg-gray-100 rounded-lg mt-4 w-full grid grid-cols-5 gap-4 gap-y-8">
                             <LabeledText
                                 className=" col-span-3"
                                 title="Họ và tên"
@@ -71,7 +71,7 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin môn học cần phúc khảo
                         </p>
-                        <div className=" mt-4 w-full grid grid-cols-5 gap-4">
+                        <div className=" py-3 px-4 bg-gray-100 rounded-lg mt-4 w-full grid grid-cols-5 gap-4">
                             <LabeledText
                                 className=" col-span-3"
                                 title="Môn phúc khảo"
@@ -92,7 +92,7 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin bài thi
                         </p>
-                        <div className=" mt-4 w-full grid grid-cols-3 gap-4">
+                        <div className=" py-3 px-4 bg-gray-100 rounded-lg mt-4 w-full grid grid-cols-3 gap-4">
                             <LabeledText
                                 title="Ngày thi"
                                 value={new Intl.DateTimeFormat("vi-VN", {
@@ -113,7 +113,7 @@ export default function StudentReviewForm({ isOpen, form, onClose }: Props) {
                             />
                         </div>
                     </div>
-                    <DetailReviewFormStatus form={form} />
+                    <DetailReviewFormStatus status={form.tinhTrang} />
                     <div className=" w-full grid grid-cols-5 gap-4">
                         <div className=" col-span-2 ">
                             <ComplainForm form={form} />
