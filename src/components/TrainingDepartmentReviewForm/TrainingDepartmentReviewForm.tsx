@@ -6,7 +6,10 @@ import { useMutation } from "react-query";
 import ApproveForm from "../ApproveForm/ApproveForm";
 import Button from "../Button/Button";
 import DetailReviewFormStatus from "../DetailReviewFormStatus/DetailReviewFormStatus";
+import RejectForm from "../RejectForm/RejectForm";
 import LabeledText from "../Typography/LabeledText";
+import ReviewRequestForm from "../ReviewRequestForm/ReviewRequestForm";
+import ReviewFormStatus from "../ReviewFormStatus/ReviewFormStatus";
 
 type Props = {
     isOpen: boolean;
@@ -51,9 +54,12 @@ export default function TrainingDepartmentReviewForm({
                             </span>
                         </p>
                     </div>
-                    <p className=" text-3xl font-semibold">
-                        Thông tin đơn phúc khảo
-                    </p>
+                    <div className=" flex flex-col gap-2 items-center">
+                        <p className=" text-3xl font-semibold">
+                            Thông tin đơn phúc khảo
+                        </p>
+                        <ReviewFormStatus status={form.tinhTrang} />
+                    </div>
                     <div className=" w-full flex flex-col gap-2 justify-between">
                         <p className=" font-semibold text-center text-gray-500">
                             Thông tin sinh viên
@@ -121,7 +127,6 @@ export default function TrainingDepartmentReviewForm({
                             />
                         </div>
                     </div>
-                    <DetailReviewFormStatus status={form.tinhTrang} />
                     <div className=" w-full flex items-center justify-between gap-4">
                         <Button
                             onClick={onClose}
@@ -137,16 +142,16 @@ export default function TrainingDepartmentReviewForm({
                                 </p>
                             </div>
                         </Button>
-                        <div className=" flex gap-4">
-                            <Button className=" bg-red-400 hover:bg-red-500 ">
-                                <p className=" font-semibold">Từ chối đơn</p>
-                            </Button>
-                            <ApproveForm
-                                onClick={() => {
-                                    mutate({ id, tinhTrang: "DANG_XU_LI" });
-                                }}
-                            />
-                        </div>
+                        {form.tinhTrang === "DA_GUI" ? (
+                            <div className=" flex gap-4">
+                                <RejectForm form={form} />
+                                <ApproveForm
+                                    onClick={() => {
+                                        mutate({ id, tinhTrang: "DANG_XU_LI" });
+                                    }}
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
             </Modal.Body>

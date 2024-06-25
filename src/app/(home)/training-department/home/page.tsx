@@ -67,6 +67,7 @@ export default function Page() {
                     pick={{
                         testScore: {
                             title: "Môn học",
+                            className: " w-[500px] font-medium",
                             mapper: (value) => value?.tenMon,
                         },
                         khoa: {
@@ -112,6 +113,7 @@ export default function Page() {
                     pick={{
                         testScore: {
                             title: "Môn học",
+                            className: " w-[500px] font-medium",
                             mapper: (value) => value?.tenMon,
                         },
                         khoa: {
@@ -157,6 +159,7 @@ export default function Page() {
                     pick={{
                         testScore: {
                             title: "Môn học",
+                            className: " w-[500px] font-medium",
                             mapper: (value) => value?.tenMon,
                         },
                         khoa: {

@@ -10,6 +10,10 @@ import { useMutation } from "react-query";
 import Button from "../Button/Button";
 import ControllerTextarea from "../ControllerTextarea/ControllerTextarea";
 import LabeledText from "../Typography/LabeledText";
+import {
+    ComplaintFormEntity,
+    NewComplaintForm,
+} from "@/types/ComplainFormEntity";
 
 type Props = {
     onCreated?: () => any;
@@ -35,9 +39,9 @@ export default function ComplainForm({ onCreated, form }: Props) {
         setValue,
         clearErrors,
         reset,
-    } = useForm<NewScoreReviewForm>({ defaultValues: {} });
+    } = useForm<NewComplaintForm>({ defaultValues: {} });
 
-    const onSubmit = async (data: NewScoreReviewForm) => {
+    const onSubmit = async (data: NewComplaintForm) => {
         const newForm = {
             ...data,
             reviewFormId: form.id,

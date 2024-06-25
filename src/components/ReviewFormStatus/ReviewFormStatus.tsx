@@ -38,10 +38,9 @@ export default function ReviewFormStatus({ status }: Props) {
     return (
         <p
             className={twMerge(
-                FONT.primary.className,
                 color,
                 backgroundColor,
-                " w-fit font-medium rounded-md px-2 py-1",
+                " w-fit font-semibold rounded-md px-2 py-1",
             )}
         >
             {text}

@@ -11,4 +11,8 @@ export type ComplaintFormEntity = {
     reviewForm: ScoreReviewForm;
 };
 
+export type NewComplaintForm = {
+    lyDo: string;
+};
+
 export type EComplaintStatus = "DA_GUI" | "TU_CHOI" | "DANG_XU_LI" | "DA_XU_LI";
