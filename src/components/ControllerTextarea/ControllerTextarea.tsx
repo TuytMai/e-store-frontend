@@ -1,8 +1,7 @@
 import { ReactNodeChildren } from "@/types/ReactNodeChildren";
+import { Label, Textarea } from "flowbite-react";
 import React from "react";
 import { Controller } from "react-hook-form";
-import TextInput from "../Input/TextInput";
-import { Textarea } from "flowbite-react";
 
 export default function ControllerTextarea({
     control,
@@ -33,9 +32,11 @@ export default function ControllerTextarea({
                         type={type}
                         className=" bg-background-secondary text-secondary-900"
                         title={
-                            <p className=" text-secondary-900 font-medium">
-                                {title}
-                            </p>
+                            <Label
+                                htmlFor={id}
+                                className="mb-2 block font-semibold text-secondary-900 "
+                                value={title}
+                            />
                         }
                         icon={icon}
                         rows={rows}

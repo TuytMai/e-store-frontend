@@ -42,7 +42,7 @@ export default function ReviewRequestForm() {
         setValue,
         clearErrors,
         reset,
-    } = useForm<NewScoreReviewForm>({});
+    } = useForm<NewScoreReviewForm>({ defaultValues: {} });
 
     const onSubmit = async (data: NewScoreReviewForm) => {
         const newForm = {
@@ -65,13 +65,14 @@ export default function ReviewRequestForm() {
         null,
     );
 
-    useEffect(() => {
-        reset();
-    }, []);
-
     return (
         <div>
-            <Button onClick={() => setOpenModal(true)}>
+            <Button
+                onClick={() => {
+                    setOpenModal(true);
+                    reset({});
+                }}
+            >
                 <div className=" flex items-center gap-2">
                     <IoAddOutline size={24} />
                     Tạo đơn phúc khảo mới
