@@ -37,7 +37,7 @@ export default function SideBarUI({
 
     useEffect(() => {
         setIsCollapse(_isCollapse);
-    }, [_isCollapse]);
+    }, [_isCollapse, setIsCollapse]);
 
     useEffect(() => {
         setCookie(COOKIE_NAME.SIDE_BAR_COLLAPSE, isCollapse);

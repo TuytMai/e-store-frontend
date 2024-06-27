@@ -12,7 +12,7 @@ export default function useLocalStorage<T>(
 			_setData(JSON.parse(localStorage.getItem(name) || ""));
 		else _setData(defaultValue);
 		setIsSet(true);
-	}, [name]);
+	}, [name, defaultValue]);
 
 	const setData = useCallback(
 		(action: T | SetStateAction<T | undefined>) => {

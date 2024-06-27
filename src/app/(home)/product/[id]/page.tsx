@@ -89,6 +89,7 @@ export default function Page({ params: { id } }: Props) {
                             ?.filter((v: any) => v)
                             ?.map((url) => (
                                 <Image
+                                    key={url}
                                     src={url}
                                     width={500}
                                     height={500}

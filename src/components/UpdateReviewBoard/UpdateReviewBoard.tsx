@@ -43,6 +43,7 @@ export default function UpdateReviewBoard({
 
     useDeepCompareEffect(() => {
         setLecturers(reviewBoard.lecturers);
+        console.log({ reviewBoard: reviewBoard?.reviewResults });
         setScoreReviews(
             reviewBoard?.reviewResults?.map((d) => d.testScoreReviewForm) || [],
         );
